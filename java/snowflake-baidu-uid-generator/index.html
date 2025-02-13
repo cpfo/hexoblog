@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/hexoblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/hexoblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/hexoblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/hexoblog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/hexoblog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"cpfo.github.io","root":"/hexoblog/","images":"/hexoblog/images","scheme":"Pisces","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/hexoblog/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/hexoblog/js/config.js"></script>
+
+    <meta name="description" content="项目使用了百度的uid-generator来生成唯一ID，在2024-11-21时候，观察到部分项目生成的id变成了负数，下面分析了具体的原因以及给出了解决思路。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="雪花算法 百度uid-generator生成的id变成负数">
+<meta property="og:url" content="https://cpfo.github.io/hexoblog/java/snowflake-baidu-uid-generator/index.html">
+<meta property="og:site_name" content="笔记">
+<meta property="og:description" content="项目使用了百度的uid-generator来生成唯一ID，在2024-11-21时候，观察到部分项目生成的id变成了负数，下面分析了具体的原因以及给出了解决思路。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-11-26T07:14:13.000Z">
+<meta property="article:modified_time" content="2024-11-26T08:39:55.436Z">
+<meta property="article:author" content="chenpf">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="snowflake">
+<meta property="article:tag" content="唯一ID">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://cpfo.github.io/hexoblog/java/snowflake-baidu-uid-generator/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://cpfo.github.io/hexoblog/java/snowflake-baidu-uid-generator/","path":"java/snowflake-baidu-uid-generator/","title":"雪花算法 百度uid-generator生成的id变成负数"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>雪花算法 百度uid-generator生成的id变成负数 | 笔记</title>
+  
+
+  <script src="/hexoblog/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?1945a4916bc20e4a8d139e44acf429f5"></script>
+
+
+
+
+
+
+<link rel="dns-prefetch" href="pinglun-iota.vercel.app">
+  <noscript>
+    <link rel="stylesheet" href="/hexoblog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/hexoblog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">笔记</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/hexoblog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/hexoblog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/hexoblog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/hexoblog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/hexoblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">问题分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">解决思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E6%95%B4%E6%97%B6%E9%97%B4%E5%9F%BA%E7%82%B9"><span class="nav-number">2.1.</span> <span class="nav-text">调整时间基点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E6%95%B4%E4%BD%8D%E6%95%B0%E7%9A%84%E5%88%92%E5%88%86"><span class="nav-number">2.2.</span> <span class="nav-text">调整位数的划分</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">chenpf</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/hexoblog/archives/">
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/hexoblog/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/hexoblog/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cpfo.github.io/hexoblog/java/snowflake-baidu-uid-generator/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/hexoblog/images/avatar.gif">
+      <meta itemprop="name" content="chenpf">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="雪花算法 百度uid-generator生成的id变成负数 | 笔记">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          雪花算法 百度uid-generator生成的id变成负数
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-11-26 15:14:13 / 修改时间：16:39:55" itemprop="dateCreated datePublished" datetime="2024-11-26T15:14:13+08:00">2024-11-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">评论：</span>
+  
+    <a title="waline" href="/hexoblog/java/snowflake-baidu-uid-generator/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/hexoblog/java/snowflake-baidu-uid-generator/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>项目使用了百度的uid-generator来生成唯一ID，在2024-11-21时候，观察到部分项目生成的id变成了负数，下面分析了具体的原因以及给出了解决思路。</p>
+<span id="more"></span>
+
+<h1 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h1><p>在 <code>2024-11-21</code> 当天，开发环境发现了部分项目生成的id变成了负数，产生了业务异常，无法入库，经过排查，发现是由于使用了百度的uid-generator进行id生成，配置不当导致的。</p>
+<p>项目中同时使用了 <code>DefaultUidGenerator</code> 和 <code>CachedUidGenerator</code> 两种生成策略。但是，在初始化配置时，只针对 <code>DefaultUidGenerator</code> 进行了调整，<code>CachedUidGenerator</code> 使用的默认值。</p>
+<p>查看代码，发现 CachedUidGenerator 继承自 DefaultUidGenerator，在sequence上做了调整，但是前面依然是雪花算法的策略。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">* +------+----------------------+----------------+-----------+</span><br><span class="line">* | sign |     delta seconds    | worker node id | sequence  |</span><br><span class="line">* +------+----------------------+----------------+-----------+</span><br><span class="line">*   1bit          28bits              22bits         13bits</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Snowflake算法描述：指定机器 &amp; 同一时刻 &amp; 某一并发序列，是唯一的。据此可生成一个64 bits的唯一ID（long）。默认采用上图字节分配方式：</p>
+<ul>
+<li><p>sign(1bit)<br>固定1bit符号标识，即生成的UID为正数。</p>
+</li>
+<li><p>delta seconds (28 bits)<br>当前时间，相对于时间基点”2016-05-20”的增量值，单位：秒，最多可支持约8.7年</p>
+</li>
+<li><p>worker id (22 bits)<br>机器id，最多可支持约420w次机器启动。内置实现为在启动时由数据库分配，默认分配策略为用后即弃，后续可提供复用策略。</p>
+</li>
+<li><p>sequence (13 bits)<br>每秒下的并发序列，13 bits可支持每秒8192个并发。</p>
+</li>
+</ul>
+<p>在 <code>DefaultUidGenerator</code> 中有说明，默认配置是从<code>2016-05-20</code>开始，大概支持8.7年，到<code>2024-11-20 21:24:16</code></p>
+<blockquote>
+<p>delta seconds: The next 28 bits, represents delta seconds since a customer epoch(2016-05-20 00:00:00.000).</p>
+<p>Supports about 8.7 years until to 2024-11-20 21:24:16</p>
+</blockquote>
+<p>CachedUidGenerator不是每次获取当前时间戳作为时间位上的数字，而是在系统启动时获取系统时间作为基础，后续在该时间上进行递增。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 启动时获取当前时间</span></span><br><span class="line"><span class="built_in">this</span>.lastSecond = <span class="keyword">new</span> <span class="title class_">PaddedAtomicLong</span>(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));</span><br><span class="line"></span><br><span class="line"><span class="comment">// fill the rest slots until to catch the cursor</span></span><br><span class="line">List&lt;Long&gt; uidList = uidProvider.provide(lastSecond.incrementAndGet());</span><br></pre></td></tr></table></figure>
+
+<h1 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h1><h2 id="调整时间基点"><a href="#调整时间基点" class="headerlink" title="调整时间基点"></a>调整时间基点</h2><p>既然是由于初始时间 epochStr 导致的，可以考虑调整 epochStr 到接近当前时间的某个日期。</p>
+<p>此时需要注意，如果想要保证生成的id长度固定为19位的话，新的日期不能距离当前时间太近，否则生成的id长度会发生变化。比如可以调整到1年前的日期，如 <code>2023-11-26</code> 。</p>
+<p>生成id又会从 1 开头的数字开始，如 <code>1088488405369774084</code></p>
+<p>这种方案会有一个风险，生成的id可能会和调整前生成的id一样，导致id重复。原因如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Allocate bits for UID</span></span><br><span class="line"><span class="keyword">return</span> bitsAllocator.allocate(currentSecond - epochSeconds, workerId, sequence);</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">long</span> <span class="title function_">allocate</span><span class="params">(<span class="type">long</span> deltaSeconds, <span class="type">long</span> workerId, <span class="type">long</span> sequence)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (deltaSeconds &lt;&lt; timestampShift) | (workerId &lt;&lt; workerIdShift) | sequence;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>理论上，获取id时的时间戳和基准时间的差值(currentSecond - epochSeconds)如果一致，生成的id就会相同。</p>
+<p>所以此方案可以用于临时紧急修复问题，不能长期使用。</p>
+<h2 id="调整位数的划分"><a href="#调整位数的划分" class="headerlink" title="调整位数的划分"></a>调整位数的划分</h2><p>可以调整 <code>timeBits</code> 到30位，增大2位，<code>seqBits</code> 调整到11位，减少2位。 此时可以支持的时间为2^30 -1 , 大概是34年，而每秒可以生成的序列为 2^11-1&#x3D;2047个。理论上也能满足大部分系统的并发场景需要。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Bits allocate */</span></span><br><span class="line"><span class="keyword">protected</span> <span class="type">int</span> <span class="variable">timeBits</span> <span class="operator">=</span> <span class="number">30</span>;</span><br><span class="line"><span class="keyword">protected</span> <span class="type">int</span> <span class="variable">workerBits</span> <span class="operator">=</span> <span class="number">22</span>;</span><br><span class="line"><span class="keyword">protected</span> <span class="type">int</span> <span class="variable">seqBits</span> <span class="operator">=</span> <span class="number">11</span>;</span><br></pre></td></tr></table></figure>
+<p>调整之后，生成的id又会从一个较小的数字开始，理论上到达某个条件之后，生成的id还是有可能和历史已生成的id重复的可能，需要注意。</p>
+<p>或者还可以调整 <code>workerBits</code> 的位数，默认是22位，接近420w次重启， 实际上可以按需进行取舍，考虑重复使用workId或者循环利用。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>在系统初始阶段，最好就要先确定好位数的划分，比如增大 timeBits ，保证系统可以支持到更长的时间。减少workerBits，调整 seqBits 等。</p>
+<ul>
+<li><p>为什么线上系统在11-21号的时候没有报错</p>
+<p>  由于线上大部分使用的是 <code>CachedUidGenerator</code>，所以是从系统启动时刻的时间戳开始计算的，如果系统近期没有重启，<code>lastSecond</code>会小于当前时间戳，并不会溢出。</p>
+</li>
+<li><p>为什么使用 CachedUidGenerator 生成的id顺序不是严格一致的。</p>
+<ol>
+<li>由于使用了 RingBuffer，如果流量不均衡的话，不同机器上消耗的速度是不同的，可能导致某些机器上消费的速度快，lastSecond 增长的快。</li>
+<li>如果服务使用了动态的扩容缩容方案，不同节点的启动时间相差也会很大，后启动的机器，lastSecond会大点，生成的id 也会偏大。</li>
+</ol>
+</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/baidu/uid-generator/blob/master/README.zh_cn.md">uid-generator readme</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/hexoblog/tags/java/" rel="tag"># java</a>
+              <a href="/hexoblog/tags/snowflake/" rel="tag"># snowflake</a>
+              <a href="/hexoblog/tags/%E5%94%AF%E4%B8%80ID/" rel="tag"># 唯一ID</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/hexoblog/tools/use-jsdelivr-cdn-hexo-blog/" rel="prev" title="使用jsdelivr加速hexo github pages博客的静态资源">
+                  <i class="fa fa-angle-left"></i> 使用jsdelivr加速hexo github pages博客的静态资源
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/hexoblog/java/es/es-01-install/" rel="next" title="ES相关介绍和安装">
+                  ES相关介绍和安装 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">chenpf</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">178k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:42</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/hexoblog/js/comments.js"></script><script src="/hexoblog/js/utils.js"></script><script src="/hexoblog/js/motion.js"></script><script src="/hexoblog/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/hexoblog/js/third-party/search/local-search.js"></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.5.0/mermaid.min.js","integrity":"sha256-K7oJiQlDulzl24ZUFOywuYme1JqBBvQzK6m8qHjt9Gk="}}</script>
+  <script src="/hexoblog/js/third-party/tags/mermaid.js"></script>
+
+
+
+  <script src="/hexoblog/js/third-party/pace.js"></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"pinglun-iota.vercel.app","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":[],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/hexoblog/java/snowflake-baidu-uid-generator/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+</body>
+</html>

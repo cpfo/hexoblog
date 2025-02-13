@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/hexoblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/hexoblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/hexoblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/hexoblog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/hexoblog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"cpfo.github.io","root":"/hexoblog/","images":"/hexoblog/images","scheme":"Pisces","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/hexoblog/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/hexoblog/js/config.js"></script>
+
+    <meta name="description" content="主要记录下ES的概念，安装和使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES相关介绍和安装">
+<meta property="og:url" content="https://cpfo.github.io/hexoblog/java/es/es-01-install/index.html">
+<meta property="og:site_name" content="笔记">
+<meta property="og:description" content="主要记录下ES的概念，安装和使用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205171741388-1990334679.png">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205171751933-576636800.png">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205171803916-704919285.png">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205171811564-2114810461.png">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205171817377-1198317744.png">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205171824403-1152991371.png">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205174428188-794591883.png">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205174437248-89466588.png">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205174442439-1069765383.png">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205174447612-1377452674.png">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205174453080-1677763578.png">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205174457820-447955706.png">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205174551794-1811444061.png">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205174557427-1969761296.png">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205174602086-492617752.png">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205174607756-480992428.png">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205174612261-197593780.png">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205174617803-1364879576.png">
+<meta property="og:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205172005673-1129389907.png">
+<meta property="article:published_time" content="2025-01-17T02:30:50.000Z">
+<meta property="article:modified_time" content="2025-02-11T05:41:16.790Z">
+<meta property="article:author" content="chenpf">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="elascitsearch">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cpfo.github.io/hexoblog/images/java/es/2729274-20230205171741388-1990334679.png">
+
+
+<link rel="canonical" href="https://cpfo.github.io/hexoblog/java/es/es-01-install/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://cpfo.github.io/hexoblog/java/es/es-01-install/","path":"java/es/es-01-install/","title":"ES相关介绍和安装"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>ES相关介绍和安装 | 笔记</title>
+  
+
+  <script src="/hexoblog/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?1945a4916bc20e4a8d139e44acf429f5"></script>
+
+
+
+
+
+
+<link rel="dns-prefetch" href="pinglun-iota.vercel.app">
+  <noscript>
+    <link rel="stylesheet" href="/hexoblog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/hexoblog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">笔记</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/hexoblog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/hexoblog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/hexoblog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/hexoblog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/hexoblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="nav-number">1.1.</span> <span class="nav-text">倒排索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%90%91%E7%B4%A2%E5%BC%95"><span class="nav-number">1.1.1.</span> <span class="nav-text">正向索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95-1"><span class="nav-number">1.1.2.</span> <span class="nav-text">倒排索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%90%91%E5%92%8C%E5%80%92%E6%8E%92%E5%AF%B9%E6%AF%94"><span class="nav-number">1.1.3.</span> <span class="nav-text">正向和倒排对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ES%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.2.</span> <span class="nav-text">ES数据库基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E6%A1%A3%E5%92%8C%E5%AD%97%E6%AE%B5"><span class="nav-number">1.2.1.</span> <span class="nav-text">文档和字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E5%92%8C%E6%98%A0%E5%B0%84"><span class="nav-number">1.2.2.</span> <span class="nav-text">索引和映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql%E4%B8%8Eelasticsearch"><span class="nav-number">1.2.3.</span> <span class="nav-text">mysql与elasticsearch</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ES%E5%92%8CKibana%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text">ES和Kibana安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ES%E5%AE%89%E8%A3%85"><span class="nav-number">2.1.</span> <span class="nav-text">ES安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK%E4%BE%9D%E8%B5%96%E9%97%AE%E9%A2%98"><span class="nav-number">2.1.1.</span> <span class="nav-text">JDK依赖问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%93%E7%94%A8%E7%94%A8%E6%88%B7"><span class="nav-number">2.1.2.</span> <span class="nav-text">创建专用用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.3.</span> <span class="nav-text">修改配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF"><span class="nav-number">2.1.4.</span> <span class="nav-text">常见错误</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kibana%E5%AE%89%E8%A3%85"><span class="nav-number">2.2.</span> <span class="nav-text">Kibana安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%AF%86%E7%A0%81%E8%AE%BF%E9%97%AE"><span class="nav-number">2.3.</span> <span class="nav-text">配置密码访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ES%E9%9B%86%E7%BE%A4"><span class="nav-number">2.4.</span> <span class="nav-text">ES集群</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85"><span class="nav-number">2.4.1.</span> <span class="nav-text">集群安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E7%9B%91%E6%8E%A7"><span class="nav-number">2.4.1.1.</span> <span class="nav-text">集群监控</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-number">2.4.1.2.</span> <span class="nav-text">创建索引</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E8%84%91%E8%A3%82%E9%97%AE%E9%A2%98"><span class="nav-number">2.4.2.</span> <span class="nav-text">集群脑裂问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E8%81%8C%E8%B4%A3%E5%88%92%E5%88%86"><span class="nav-number">2.4.2.1.</span> <span class="nav-text">集群职责划分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%84%91%E8%A3%82%E9%97%AE%E9%A2%98"><span class="nav-number">2.4.2.2.</span> <span class="nav-text">脑裂问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8"><span class="nav-number">2.4.3.</span> <span class="nav-text">集群分布式存储</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E7%89%87%E5%AD%98%E5%82%A8%E5%8E%9F%E7%90%86"><span class="nav-number">2.4.3.1.</span> <span class="nav-text">分片存储原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E6%9F%A5%E8%AF%A2"><span class="nav-number">2.4.3.2.</span> <span class="nav-text">集群分布式查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB"><span class="nav-number">2.4.3.3.</span> <span class="nav-text">集群故障转移</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%88%86%E8%AF%8D%E5%99%A8"><span class="nav-number">2.5.</span> <span class="nav-text">安装分词器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81"><span class="nav-number">2.5.1.</span> <span class="nav-text">验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E8%AF%8D%E8%AF%8D%E5%85%B8"><span class="nav-number">2.5.2.</span> <span class="nav-text">扩展词词典</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%9C%E7%94%A8%E8%AF%8D%E8%AF%8D%E5%85%B8"><span class="nav-number">2.5.3.</span> <span class="nav-text">停用词词典</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">chenpf</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/hexoblog/archives/">
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/hexoblog/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/hexoblog/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cpfo.github.io/hexoblog/java/es/es-01-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/hexoblog/images/avatar.gif">
+      <meta itemprop="name" content="chenpf">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="ES相关介绍和安装 | 笔记">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ES相关介绍和安装
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-01-17 10:30:50" itemprop="dateCreated datePublished" datetime="2025-01-17T10:30:50+08:00">2025-01-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-02-11 13:41:16" itemprop="dateModified" datetime="2025-02-11T13:41:16+08:00">2025-02-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">评论：</span>
+  
+    <a title="waline" href="/hexoblog/java/es/es-01-install/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/hexoblog/java/es/es-01-install/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>12k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>主要记录下ES的概念，安装和使用。</p>
+<span id="more"></span>
+
+<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><h2 id="倒排索引"><a href="#倒排索引" class="headerlink" title="倒排索引"></a>倒排索引</h2><p>倒排索引的概念是基于MySQL这样的正向索引而言的。</p>
+<h3 id="正向索引"><a href="#正向索引" class="headerlink" title="正向索引"></a>正向索引</h3><blockquote>
+<p>设置了索引的话挺快的，但要是模糊查询则就很慢！</p>
+</blockquote>
+<p>那么什么是正向索引呢？例如给下表（tb_goods）中的id创建索引：</p>
+<p><img data-src="/hexoblog/images/java/es/2729274-20230205171741388-1990334679.png" alt="images"></p>
+<p>如果是根据id查询，那么直接走索引，查询速度非常快。</p>
+<p>但如果是基于title做模糊查询，只能是逐行扫描数据，流程如下：</p>
+<p>1）用户搜索数据，条件是title符合”%手机%”</p>
+<p>2）逐行获取数据，比如id为1的数据</p>
+<p>3）判断数据中的title是否符合用户搜索条件</p>
+<p>4）如果符合则放入结果集，不符合则丢弃。回到步骤1</p>
+<p>逐行扫描，也就是全表扫描，随着数据量增加，其查询效率也会越来越低。当数据量达到数百万时，就是一场灾难。</p>
+<h3 id="倒排索引-1"><a href="#倒排索引-1" class="headerlink" title="倒排索引"></a>倒排索引</h3><p>倒排索引中有两个非常重要的概念：</p>
+<ul>
+<li>文档（Document）：用来搜索的数据，其中的每一条数据就是一个文档。例如一个网页、一个商品信息</li>
+<li>词条（Term）：对文档数据或用户搜索数据，利用某种算法分词，得到的具备含义的词语就是词条。例如：我是中国人，就可以分为：我、是、中国人、中国、国人这样的几个词条</li>
+</ul>
+<p>创建倒排索引是对正向索引的一种特殊处理，流程如下：</p>
+<ul>
+<li>将每一个文档的数据利用算法分词，得到一个个词条</li>
+<li>创建表，每行数据包括词条、词条所在文档id、位置等信息</li>
+<li>因为词条唯一性，可以给词条创建索引，例如hash表结构索引</li>
+</ul>
+<p>如图：</p>
+<p><img data-src="/hexoblog/images/java/es/2729274-20230205171751933-576636800.png" alt="images"></p>
+<p>倒排索引的<strong>搜索流程</strong>如下（以搜索”华为手机”为例）：</p>
+<p>1）用户输入条件<code>&quot;华为手机&quot;</code>进行搜索。</p>
+<p>2）对用户输入内容<strong>分词</strong>，得到词条：<code>华为</code>、<code>手机</code>。</p>
+<p>3）拿着词条在倒排索引中查找，可以得到包含词条的文档id：1、2、3。</p>
+<p>4）拿着文档id到正向索引中查找具体文档。</p>
+<p>如图：</p>
+<p><img data-src="/hexoblog/images/java/es/2729274-20230205171803916-704919285.png" alt="image"></p>
+<p>虽然要先查询倒排索引，再查询倒排索引，但是无论是词条、还是文档id都建立了索引，查询速度非常快！无需全表扫描。</p>
+<h3 id="正向和倒排对比"><a href="#正向和倒排对比" class="headerlink" title="正向和倒排对比"></a>正向和倒排对比</h3><p>概念区别：</p>
+<ul>
+<li><p><strong>正向索引</strong>是最传统的，根据id索引的方式。但根据词条查询时，必须先逐条获取每个文档，然后判断文档中是否包含所需要的词条，是<strong>根据文档找词条的过程</strong>。</p>
+</li>
+<li><p>而<strong>倒排索引</strong>则相反，是先找到用户要搜索的词条，根据词条得到保护词条的文档的id，然后根据id获取文档。是<strong>根据词条找文档的过程</strong>。</p>
+</li>
+</ul>
+<h2 id="ES数据库基本概念"><a href="#ES数据库基本概念" class="headerlink" title="ES数据库基本概念"></a>ES数据库基本概念</h2><p>elasticsearch中有很多独有的概念，与mysql中略有差别，但也有相似之处。</p>
+<h3 id="文档和字段"><a href="#文档和字段" class="headerlink" title="文档和字段"></a>文档和字段</h3><blockquote>
+<p>一个文档就像数据库里的一条数据，字段就像数据库里的列</p>
+</blockquote>
+<p>elasticsearch是面向<strong>文档（Document）</strong>存储的，可以是<strong>数据库中的一条商品数据</strong>，一个订单信息。文档数据会被序列化为json格式后存储在elasticsearch中：</p>
+<p><img data-src="/hexoblog/images/java/es/2729274-20230205171811564-2114810461.png" alt="image"></p>
+<p>而Json文档中往往包含很多的<strong>字段（Field）</strong>，类似于<strong>mysql数据库中的列</strong>。</p>
+<h3 id="索引和映射"><a href="#索引和映射" class="headerlink" title="索引和映射"></a>索引和映射</h3><blockquote>
+<p>索引就像数据库里的表，映射就像数据库中定义的表结构</p>
+</blockquote>
+<p><strong>索引（Index）</strong>，就是相同类型的文档的集合【<strong>类似mysql中的表</strong>】</p>
+<p>例如：</p>
+<ul>
+<li>所有用户文档，就可以组织在一起，称为用户的索引；</li>
+<li>所有商品的文档，可以组织在一起，称为商品的索引；</li>
+<li>所有订单的文档，可以组织在一起，称为订单的索引；</li>
+</ul>
+<p><img data-src="/hexoblog/images/java/es/2729274-20230205171817377-1198317744.png" alt="image"></p>
+<p>因此，我们可以把索引当做是数据库中的表。</p>
+<p>数据库的表会有约束信息，用来定义表的结构、字段的名称、类型等信息。因此，索引库中就有<strong>映射（mapping）</strong>，是索引中文档的字段约束信息，类似表的结构约束。</p>
+<h3 id="mysql与elasticsearch"><a href="#mysql与elasticsearch" class="headerlink" title="mysql与elasticsearch"></a>mysql与elasticsearch</h3><blockquote>
+<p>各自长处：</p>
+<ul>
+<li>Mysql：擅长事务类型操作，可以确保数据的安全和一致性</li>
+<li>Elasticsearch：擅长海量数据的搜索、分析、计算</li>
+</ul>
+</blockquote>
+<p>我们统一的把<strong>mysql与elasticsearch的概念做一下对比</strong>：</p>
+<table>
+<thead>
+<tr>
+<th><strong>MySQL</strong></th>
+<th><strong>Elasticsearch</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Table</td>
+<td>Index</td>
+<td>索引(index)，就是文档的集合，类似数据库的表(table)</td>
+</tr>
+<tr>
+<td>Row</td>
+<td>Document</td>
+<td>文档（Document），就是一条条的数据，类似数据库中的行（Row），文档都是JSON格式</td>
+</tr>
+<tr>
+<td>Column</td>
+<td>Field</td>
+<td>字段（Field），就是JSON文档中的字段，类似数据库中的列（Column）</td>
+</tr>
+<tr>
+<td>Schema</td>
+<td>Mapping</td>
+<td>Mapping（映射）是索引中文档的约束，例如字段类型约束。类似数据库的表结构（Schema）</td>
+</tr>
+<tr>
+<td>SQL</td>
+<td>DSL</td>
+<td>DSL是elasticsearch提供的JSON风格的请求语句，用来操作elasticsearch，实现CRUD</td>
+</tr>
+</tbody></table>
+<p><img data-src="/hexoblog/images/java/es/2729274-20230205171824403-1152991371.png" alt="image"></p>
+<h1 id="ES和Kibana安装"><a href="#ES和Kibana安装" class="headerlink" title="ES和Kibana安装"></a>ES和Kibana安装</h1><h2 id="ES安装"><a href="#ES安装" class="headerlink" title="ES安装"></a>ES安装</h2><h3 id="JDK依赖问题"><a href="#JDK依赖问题" class="headerlink" title="JDK依赖问题"></a>JDK依赖问题</h3><p>ES优先使用系统的jdk，如果版本不一致就会报错</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">warning: usage of JAVA_HOME is deprecated, use ES_JAVA_HOME</span><br><span class="line">Future versions of Elasticsearch will require Java 11; your Java version from [/usr/local/java/jdk1.8.0_421/jre] does not meet this requirement. Consider switching to a distribution of Elasticsearch with a bundled JDK. If you are already using a distribution with a bundled JDK, ensure the JAVA_HOME environment variable is not set.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>解决办法：  使用es自带的jdk, 修改 bin&#x2F;elasticsearch ， 添加下面内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">############# 添加配置解决jdk版本问题 ##############</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将jdk修改为es中自带jdk的配置目录</span></span><br><span class="line">export ES_JAVA_HOME=/usr/local/elasticsearch/elasticsearch-7.12.1/jdk</span><br><span class="line">export PATH=$ES_JAVA_HOME/bin:$PATH</span><br><span class="line"></span><br><span class="line">if [ -x &quot;$ES_JAVA_HOME/bin/java&quot; ]; then</span><br><span class="line">        JAVA=&quot;$ES_JAVA_HOME/bin/java&quot;</span><br><span class="line">else</span><br><span class="line">        JAVA=`which java`</span><br><span class="line">fi</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改内存  <code>config/jvm.options</code></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-Xms1024m</span><br><span class="line">-Xmx1024m</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建专用用户"><a href="#创建专用用户" class="headerlink" title="创建专用用户"></a>创建专用用户</h3><p>不能使用root启动，需要创建专用的用户。 <code>can not run elasticsearch as root</code> </p>
+<ul>
+<li>创建用户<blockquote>
+<p>useradd esuser</p>
+</blockquote>
+</li>
+<li>创建所属组<blockquote>
+<p>chown esuser:esuser -R  elasticsearch-7.12.1</p>
+</blockquote>
+</li>
+<li>切换用户<blockquote>
+<p>su esuser</p>
+</blockquote>
+</li>
+<li>启动<blockquote>
+<p>.&#x2F;elasticsearch -d</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h3><p>修改文件 elasticsearch.yml</p>
+<ul>
+<li><p>修改ip</p>
+<blockquote>
+<p>network.host: 0.0.0.0 </p>
+</blockquote>
+</li>
+<li><p>初始化节点名称 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cluster.name: elasticsearch </span><br><span class="line">node.name: es-node0</span><br><span class="line">cluster.initial_master_nodes: [&quot;es-node0&quot;]</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h3><ul>
+<li>max file descriptors [4096] for elasticsearch process is too low</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用root</span></span><br><span class="line">vi /etc/security/limits.conf</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">添加</span></span><br><span class="line">* soft nofile 65536</span><br><span class="line">* hard nofile 131072</span><br><span class="line">* soft nproc 2048</span><br><span class="line">* hard nproc 4096</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</li>
+</ul>
+<p>elasticsearch用户拥有的内存权限太小，至少需要262144，解决办法：</p>
+<p>vim &#x2F;etc&#x2F;sysctl.conf , 添加 </p>
+<blockquote>
+<p>vm.max_map_count&#x3D;262144</p>
+</blockquote>
+<p>保存，刷新配置  </p>
+<p>sysctl -p</p>
+<p>启动后，访问 <code>curl http://127.0.0.1:9200</code> 出现如下信息，说明成功</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;es-node0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;cluster_name&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;elasticsearch&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;cluster_uuid&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;N_nV0k8hTXyGW1G1iZjTuw&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;version&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;number&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;7.12.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;build_flavor&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;default&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;build_type&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;tar&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;build_hash&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;3186837139b9c6b6d23c3200870651f10d3343b7&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;build_date&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;2021-04-20T20:56:39.040728659Z&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;build_snapshot&quot;</span> <span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;lucene_version&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;8.8.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;minimum_wire_compatibility_version&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;6.8.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;minimum_index_compatibility_version&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;6.0.0-beta1&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;tagline&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;You Know, for Search&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果使用ip无法访问的话，可以看下，是否是机器防火墙的问题。</p>
+<h2 id="Kibana安装"><a href="#Kibana安装" class="headerlink" title="Kibana安装"></a>Kibana安装</h2><ol>
+<li><p>下载</p>
+<blockquote>
+<p>wget <a target="_blank" rel="noopener" href="https://artifacts.elastic.co/downloads/kibana/kibana-7.12.1-linux-x86_64.tar.gz">https://artifacts.elastic.co/downloads/kibana/kibana-7.12.1-linux-x86_64.tar.gz</a></p>
+</blockquote>
+</li>
+<li><p>解压后修改权限</p>
+</li>
+</ol>
+<blockquote>
+<p>chown esuser:esuser -R kibana-7.12.1-linux-x86_64</p>
+</blockquote>
+<ol start="3">
+<li>修改 <code>config/kibana.yml</code> 配置</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">server.port：http访问端口</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">server.host：ip地址，0.0.0.0表示可远程访问</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">server.name：kibana服务名</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">elasticsearch.hosts：elasticsearch地址</span></span><br><span class="line"></span><br><span class="line">server.port: 5601</span><br><span class="line">server.host: &quot;0.0.0.0&quot;</span><br><span class="line">server.name: &quot;kibana-test&quot;</span><br><span class="line">elasticsearch.hosts: [&quot;http://127.0.0.1:9200&quot;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li><p>启动</p>
+<blockquote>
+<p>nohup .&#x2F;kibana &amp;</p>
+</blockquote>
+</li>
+<li><p>访问</p>
+</li>
+</ol>
+<p>浏览器访问 <a target="_blank" rel="noopener" href="http://ip:5601/">http://ip:5601</a> ， 能访问，说明成功。</p>
+<ol start="6">
+<li><p>可以在页面上添加 Sample data 进行测试</p>
+</li>
+<li><p>可以在discover 页面进行查询</p>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="http://localhost:5601/app/discover">http://localhost:5601/app/discover</a></p>
+<h2 id="配置密码访问"><a href="#配置密码访问" class="headerlink" title="配置密码访问"></a>配置密码访问</h2><p>参考官方文档 <a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/7.12/security-minimal-setup.html#_prerequisites_10">security-minimal-setup</a></p>
+<ol>
+<li>Stop both Kibana and Elasticsearch if they are running</li>
+<li>修改 <code>ES_PATH_CONF/elasticsearch.yml</code> 文件， 并设置为 true</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xpack.security.enabled: true </span><br><span class="line">xpack.security.transport.ssl.enabled: true</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>启动es， <code>./elasticsearch -d</code></li>
+<li>生成随机密码 <code>./bin/elasticsearch-setup-passwords auto</code></li>
+<li>设置密码之后， 不能二次执行 <code>elasticsearch-setup-passwords</code></li>
+<li>修改 <code>KIB_PATH_CONF/kibana.yml</code> , 添加</li>
+</ol>
+<blockquote>
+<p>elasticsearch.username: “kibana_system”</p>
+</blockquote>
+<ol start="7">
+<li><p>Create the Kibana keystore</p>
+<blockquote>
+<p>.&#x2F;bin&#x2F;kibana-keystore create</p>
+</blockquote>
+</li>
+<li><p>Add the password for the kibana_system user to the Kibana keystore</p>
+<blockquote>
+<p>.&#x2F;bin&#x2F;kibana-keystore add elasticsearch.password</p>
+</blockquote>
+</li>
+<li><p>启动kibana</p>
+</li>
+</ol>
+<h2 id="ES集群"><a href="#ES集群" class="headerlink" title="ES集群"></a>ES集群</h2><h3 id="集群安装"><a href="#集群安装" class="headerlink" title="集群安装"></a>集群安装</h3><p>因为本地机器有限，所以在同一台机器上进行集群的安装。</p>
+<ol>
+<li><p>将 elasticsearch-7.12.1-linux-x86_64.tar.gz 解压后复制成三份，分别修改对应的配置</p>
+</li>
+<li><p>配置信息如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">node-1</span></span><br><span class="line">cluster.initial_master_nodes: [&quot;node-1&quot;, &quot;node-2&quot;, &quot;node-3&quot;]</span><br><span class="line">cluster.name: es-cluster</span><br><span class="line">discovery.seed_hosts: [&quot;node-1:9205&quot;, &quot;node-2:9206&quot;, &quot;node-3:9207&quot;]</span><br><span class="line">network.host: 0.0.0.0</span><br><span class="line">http.port: 9200</span><br><span class="line">node.name: node-1</span><br><span class="line">transport.port: 9205</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">node-2 前面几项一样</span></span><br><span class="line">http.port: 9201</span><br><span class="line">node.name: node-2</span><br><span class="line">transport.port: 9206</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">node-3</span></span><br><span class="line">http.port: 9202</span><br><span class="line">node.name: node-2</span><br><span class="line">transport.port: 9207</span><br></pre></td></tr></table></figure></li>
+<li><p>修改 hosts 中映射</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">10.1.40.136 node-1</span><br><span class="line">10.1.40.136 node-2</span><br><span class="line">10.1.40.136 node-3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调整 jvm.options 内存，按实际调整</p>
+</li>
+<li><p>分别启动各个node，观察启动日志和状态。</p>
+</li>
+<li><p>查看集群是否启动成功</p>
+<blockquote>
+<p>curl <a target="_blank" rel="noopener" href="http://localhost:9202/_cat/nodes?v">http://localhost:9202/_cat/nodes?v</a></p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ip          heap.percent ram.percent cpu load_1m load_5m load_15m node.role   master name</span><br><span class="line">10.1.40.136           54          70   2    0.05    0.05     0.05 cdfhilmrstw *      node-1</span><br><span class="line">10.1.40.136           25          70   2    0.05    0.05     0.05 cdfhilmrstw -      node-2</span><br><span class="line">10.1.40.136           30          70   2    0.05    0.05     0.05 cdfhilmrstw -      node-3</span><br><span class="line"></span><br><span class="line">* 表示是 master 节点</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>查看健康情况</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl http://localhost:9202/_cat/health?v</span><br><span class="line"></span><br><span class="line">epoch      timestamp cluster    status node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent</span><br><span class="line">1739178458 09:07:38  es-cluster green           3         3     42  18    0    0        0             0                  -                100.0%</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="集群监控"><a href="#集群监控" class="headerlink" title="集群监控"></a>集群监控</h4><p>推荐使用cerebro来监控es集群状态，官方网址：<a target="_blank" rel="noopener" href="https://github.com/lmenezes/cerebro">https://github.com/lmenezes/cerebro</a> </p>
+<p>需要JDK11以上，<a target="_blank" rel="noopener" href="https://cfdownload.adobe.com/pub/adobe/coldfusion/java/java11/java11026/jdk-11.0.26_linux-x64_bin.tar.gz">下载地址</a> 。</p>
+<h4 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h4><blockquote>
+<p>创建索引库的时候需要设置分片数量（其他还有多少个ES服务在该集群）以及副本数量（本服务的数据拷贝几份）</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">PUT /testshard</span><br><span class="line">&#123;</span><br><span class="line">  &quot;settings&quot;: &#123;</span><br><span class="line">    &quot;number_of_shards&quot;: 3, // 分片数量</span><br><span class="line">    &quot;number_of_replicas&quot;: 1 // 副本数量</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;mappings&quot;: &#123;</span><br><span class="line">    &quot;properties&quot;: &#123;</span><br><span class="line">      // mapping映射定义 ...</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以在监控上查看分片效果</p>
+<p><img data-src="/hexoblog/images/java/es/2729274-20230205174428188-794591883.png" alt="image"></p>
+<h3 id="集群脑裂问题"><a href="#集群脑裂问题" class="headerlink" title="集群脑裂问题"></a>集群脑裂问题</h3><blockquote>
+<p>master eligible节点的作用是什么？</p>
+<ul>
+<li>参与集群选主</li>
+<li>主节点可以管理集群状态、管理分片信息、处理创建和删除索引库的请求</li>
+</ul>
+<p>data节点的作用是什么？</p>
+<ul>
+<li>数据的CRUD</li>
+</ul>
+<p>coordinator节点的作用是什么？</p>
+<ul>
+<li><p>路由请求到其它节点</p>
+</li>
+<li><p>合并查询到的结果，返回给用户</p>
+</li>
+</ul>
+</blockquote>
+<h4 id="集群职责划分"><a href="#集群职责划分" class="headerlink" title="集群职责划分"></a>集群职责划分</h4><blockquote>
+<p>通过改变配置文件中的 true——&gt; false 来改变职责。如data数据职责节点就只保留data为true其他为false</p>
+<p>注意：每个节点都是路由，这样可以保证不管哪个节点接收到请求可以分给其他人已经从其他人那接收信息。</p>
+</blockquote>
+<p>elasticsearch中集群节点有不同的职责划分：</p>
+<p><img data-src="/hexoblog/images/java/es/2729274-20230205174437248-89466588.png" alt="image"></p>
+<p>默认情况下，集群中的任何一个节点都同时具备上述四种角色。</p>
+<p>但是真实的集群一定要将集群职责分离：（因为不同职责对CPU要求不同）</p>
+<ul>
+<li>master节点：对CPU要求高，但是内存要求低</li>
+<li>data节点：对CPU和内存要求都高</li>
+<li>coordinating节点：对网络带宽、CPU要求高</li>
+</ul>
+<p>职责分离可以让我们根据不同节点的需求分配不同的硬件去部署。而且避免业务之间的互相干扰。</p>
+<p>一个典型的es集群职责划分如图：<br><img data-src="/hexoblog/images/java/es/2729274-20230205174442439-1069765383.png" alt="image"></p>
+<h4 id="脑裂问题"><a href="#脑裂问题" class="headerlink" title="脑裂问题"></a>脑裂问题</h4><blockquote>
+<p>ES 7.0后默认配置了 <strong>( eligible节点数量 + 1 ）&#x2F; 2</strong> 来解决脑裂问题</p>
+</blockquote>
+<p>脑裂是因为集群中的节点失联导致的。</p>
+<p>例如一个集群中，主节点与其它节点失联：</p>
+<p><img data-src="/hexoblog/images/java/es/2729274-20230205174447612-1377452674.png" alt="image"></p>
+<p>此时，node2和node3认为node1宕机，就会重新选主：</p>
+<p><img data-src="/hexoblog/images/java/es/2729274-20230205174453080-1677763578.png" alt="image"></p>
+<p>当node3当选后，集群继续对外提供服务，node2和node3自成集群，node1自成集群，两个集群数据不同步，出现数据差异。</p>
+<p>当网络恢复后，因为集群中有两个master节点，集群状态的不一致，出现脑裂的情况：</p>
+<p><img data-src="/hexoblog/images/java/es/2729274-20230205174457820-447955706.png" alt="image"></p>
+<p>解决脑裂的方案是，要求选票超过 <strong>( eligible节点数量 + 1 ）&#x2F; 2</strong> 才能当选为主，因此eligible节点数量最好是奇数。对应配置项是discovery.zen.minimum_master_nodes，在es7.0以后，已经成为默认配置，因此一般不会发生脑裂问题</p>
+<p>例如：3个节点形成的集群，选票必须超过 （3 + 1） &#x2F; 2 ，也就是2票。node3得到node2和node3的选票，当选为主。node1只有自己1票，没有当选。集群中依然只有1个主节点，没有出现脑裂。</p>
+<h3 id="集群分布式存储"><a href="#集群分布式存储" class="headerlink" title="集群分布式存储"></a>集群分布式存储</h3><p>当新增文档时，应该保存到不同分片，保证数据均衡，那么coordinating node如何确定数据该存储到哪个分片呢？</p>
+<p>多插入几条数据，然后进行查询，可以看到数据分布在不同的分片上</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">GET /testshard1/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;explain&quot;: true, </span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match_all&quot;: &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;hits&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;_shard&quot;: &quot;[testshard1][0]&quot;,</span><br><span class="line">            &quot;_node&quot;: &quot;cM_rO9NtQQCA6EKgrsTtbw&quot;,</span><br><span class="line">            &quot;_index&quot;: &quot;testshard1&quot;,</span><br><span class="line">            &quot;_type&quot;: &quot;_doc&quot;,</span><br><span class="line">            &quot;_id&quot;: &quot;5&quot;,</span><br><span class="line">            &quot;_score&quot;: 1.0,</span><br><span class="line">            &quot;_source&quot;: &#123;</span><br><span class="line">                &quot;info&quot;: &quot;我是一个测试语句&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;_shard&quot;: &quot;[testshard1][1]&quot;,</span><br><span class="line">            &quot;_node&quot;: &quot;WZT09pJTRrC2SLof6wlPVw&quot;,</span><br><span class="line">            &quot;_index&quot;: &quot;testshard1&quot;,</span><br><span class="line">            &quot;_type&quot;: &quot;_doc&quot;,</span><br><span class="line">            &quot;_id&quot;: &quot;2&quot;,</span><br><span class="line">            &quot;_score&quot;: 1.0,</span><br><span class="line">            &quot;_source&quot;: &#123;</span><br><span class="line">                &quot;info&quot;: &quot;我是一个测试语句&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="分片存储原理"><a href="#分片存储原理" class="headerlink" title="分片存储原理"></a>分片存储原理</h4><p>elasticsearch会通过hash算法来计算文档应该存储到哪个分片：</p>
+<blockquote>
+<p>shard &#x3D; hash(_routing) % number_of_shards</p>
+</blockquote>
+<p>说明：</p>
+<ul>
+<li>_routing默认是文档的id</li>
+<li>算法与分片数量有关，因此索引库一旦创建，分片数量不能修改！</li>
+</ul>
+<p>新增文档的流程如下：</p>
+<p><img data-src="/hexoblog/images/java/es/2729274-20230205174551794-1811444061.png" alt="image"></p>
+<p>解读：</p>
+<ul>
+<li>1）新增一个id&#x3D;1的文档</li>
+<li>2）对id做hash运算，假如得到的是2，则应该存储到shard-2</li>
+<li>3）shard-2的主分片在node3节点，将数据路由到node3</li>
+<li>4）保存文档</li>
+<li>5）同步给shard-2的副本replica-2，在node2节点</li>
+<li>6）返回结果给coordinating-node节点</li>
+</ul>
+<h4 id="集群分布式查询"><a href="#集群分布式查询" class="headerlink" title="集群分布式查询"></a>集群分布式查询</h4><p><strong>原理：</strong></p>
+<p>elasticsearch的查询分成两个阶段：</p>
+<ul>
+<li><p>scatter phase：分散阶段，coordinating node会把请求分发到每一个分片</p>
+</li>
+<li><p>gather phase：聚集阶段，coordinating node汇总data node的搜索结果，并处理为最终结果集返回给用户</p>
+</li>
+</ul>
+<p><img data-src="/hexoblog/images/java/es/2729274-20230205174557427-1969761296.png" alt="image"></p>
+<h4 id="集群故障转移"><a href="#集群故障转移" class="headerlink" title="集群故障转移"></a>集群故障转移</h4><blockquote>
+<p>ES本身已经配置好了有集群故障转移，不需要我们再去配置</p>
+</blockquote>
+<p>集群的master节点会监控集群中的节点状态，如果发现有节点宕机，会立即将宕机节点的分片数据迁移到其它节点，确保数据安全，这个叫做故障转移。</p>
+<p>1）例如一个集群结构如图：</p>
+<p><img data-src="/hexoblog/images/java/es/2729274-20230205174602086-492617752.png" alt="image"></p>
+<p>现在，node1是主节点，其它两个节点是从节点。</p>
+<p>2）突然，node1发生了故障：</p>
+<p><img data-src="/hexoblog/images/java/es/2729274-20230205174607756-480992428.png" alt="image"></p>
+<p>宕机后的第一件事，需要重新选主，例如选中了node2：</p>
+<p><img data-src="/hexoblog/images/java/es/2729274-20230205174612261-197593780.png" alt="image"></p>
+<p>node2成为主节点后，会检测集群监控状态，发现：shard-1、shard-0没有副本节点。因此需要将node1上的数据迁移到node2、node3：</p>
+<p><img data-src="/hexoblog/images/java/es/2729274-20230205174617803-1364879576.png" alt="image"></p>
+<h2 id="安装分词器"><a href="#安装分词器" class="headerlink" title="安装分词器"></a>安装分词器</h2><ol>
+<li>下载地址  <a target="_blank" rel="noopener" href="https://release.infinilabs.com/analysis-ik/stable/">https://release.infinilabs.com/analysis-ik/stable/</a></li>
+</ol>
+<p>可以在线安装，或者离线下载后解压到plugins目录下面</p>
+<ul>
+<li>在线安装<blockquote>
+<p>.&#x2F;elasticsearch-plugin  install <a target="_blank" rel="noopener" href="https://release.infinilabs.com/analysis-ik/stable/elasticsearch-analysis-ik-7.12.1.zip">https://release.infinilabs.com/analysis-ik/stable/elasticsearch-analysis-ik-7.12.1.zip</a></p>
+</blockquote>
+</li>
+</ul>
+<p>如果是集群的ES，需要每个node下都安装一遍。</p>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>IK分词器包含两种模式：</p>
+<ul>
+<li><p><code>ik_smart</code>：最少切分</p>
+</li>
+<li><p><code>ik_max_word</code>：最细切分</p>
+</li>
+</ul>
+<p>在kibana的Dev tools中输入以下代码：</p>
+<blockquote>
+<p>”analyzer“ 就是选择分词器模式</p>
+</blockquote>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GET /_analyze</span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;analyzer&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ik_max_word&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;黑马程序员学习java太棒了&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>结果</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;tokens&quot;</span> <span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;token&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;黑马&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;start_offset&quot;</span> <span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;end_offset&quot;</span> <span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;CN_WORD&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;position&quot;</span> <span class="punctuation">:</span> <span class="number">0</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;token&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;程序员&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;start_offset&quot;</span> <span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;end_offset&quot;</span> <span class="punctuation">:</span> <span class="number">5</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;CN_WORD&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;position&quot;</span> <span class="punctuation">:</span> <span class="number">1</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;token&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;程序&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;start_offset&quot;</span> <span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;end_offset&quot;</span> <span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;CN_WORD&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;position&quot;</span> <span class="punctuation">:</span> <span class="number">2</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;token&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;员&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;start_offset&quot;</span> <span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;end_offset&quot;</span> <span class="punctuation">:</span> <span class="number">5</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;CN_CHAR&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;position&quot;</span> <span class="punctuation">:</span> <span class="number">3</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;token&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;学习&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;start_offset&quot;</span> <span class="punctuation">:</span> <span class="number">5</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;end_offset&quot;</span> <span class="punctuation">:</span> <span class="number">7</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;CN_WORD&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;position&quot;</span> <span class="punctuation">:</span> <span class="number">4</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;token&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;java&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;start_offset&quot;</span> <span class="punctuation">:</span> <span class="number">7</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;end_offset&quot;</span> <span class="punctuation">:</span> <span class="number">11</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;ENGLISH&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;position&quot;</span> <span class="punctuation">:</span> <span class="number">5</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;token&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;太棒了&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;start_offset&quot;</span> <span class="punctuation">:</span> <span class="number">11</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;end_offset&quot;</span> <span class="punctuation">:</span> <span class="number">14</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;CN_WORD&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;position&quot;</span> <span class="punctuation">:</span> <span class="number">6</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;token&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;太棒&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;start_offset&quot;</span> <span class="punctuation">:</span> <span class="number">11</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;end_offset&quot;</span> <span class="punctuation">:</span> <span class="number">13</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;CN_WORD&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;position&quot;</span> <span class="punctuation">:</span> <span class="number">7</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;token&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;了&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;start_offset&quot;</span> <span class="punctuation">:</span> <span class="number">13</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;end_offset&quot;</span> <span class="punctuation">:</span> <span class="number">14</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;CN_CHAR&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;position&quot;</span> <span class="punctuation">:</span> <span class="number">8</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="扩展词词典"><a href="#扩展词词典" class="headerlink" title="扩展词词典"></a>扩展词词典</h3><p>随着互联网的发展，“造词运动”也越发的频繁。出现了很多新的词语，在原有的词汇列表中并不存在。比如：“奥力给”，“白嫖” 等。</p>
+<p>所以我们的词汇也需要不断的更新，IK分词器提供了扩展词汇的功能。</p>
+<p>1）打开IK分词器目录  config&#x2F;analysis-ik：</p>
+<p><img data-src="/hexoblog/images/java/es/2729274-20230205172005673-1129389907.png" alt="image"></p>
+<p>2）在IKAnalyzer.cfg.xml配置文件内容添加：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">properties</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;http://java.sun.com/dtd/properties.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">comment</span>&gt;</span>IK Analyzer 扩展配置<span class="tag">&lt;/<span class="name">comment</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--用户可以在这里配置自己的扩展字典 *** 添加扩展词典--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">entry</span> <span class="attr">key</span>=<span class="string">&quot;ext_dict&quot;</span>&gt;</span>ext.dic<span class="tag">&lt;/<span class="name">entry</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>3）新建一个 <code>ext.dic</code>，可以参考config目录下复制一个配置文件进行修改</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">白嫖</span></span><br><span class="line"><span class="attr">奥力给</span></span><br></pre></td></tr></table></figure>
+
+<p>4）重启elasticsearch， 查看日志中的加载情况</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[2025-01-17T14:38:30,348][INFO ][o.w.a.d.Dictionary       ] [es-node0] try load config from /usr/local/elasticsearch/elasticsearch-7.12.1/config/analysis-ik/IKAnalyzer.cfg.xml</span><br><span class="line">[2025-01-17T14:38:30,500][INFO ][o.w.a.d.Dictionary       ] [es-node0] [Dict Loading] /usr/local/elasticsearch/elasticsearch-7.12.1/config/analysis-ik/ext.dic</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意当前文件的编码必须是 UTF-8 格式，严禁使用Windows记事本编辑</p>
+</blockquote>
+<h3 id="停用词词典"><a href="#停用词词典" class="headerlink" title="停用词词典"></a>停用词词典</h3><p>在互联网项目中，在网络间传输的速度很快，所以很多语言是不允许在网络上传递的，如：关于宗教、政治等敏感词语，那么我们在搜索时也应该忽略当前词汇。</p>
+<p>IK分词器也提供了强大的停用词功能，让我们在索引时就直接忽略当前的停用词汇表中的内容。</p>
+<p>1）IKAnalyzer.cfg.xml配置文件内容添加：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">entry</span> <span class="attr">key</span>=<span class="string">&quot;ext_stopwords&quot;</span>&gt;</span>stopword.dic<span class="tag">&lt;/<span class="name">entry</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>2）在 stopword.dic 添加停用词</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">傻逼</span></span><br><span class="line"><span class="attr">艹</span></span><br></pre></td></tr></table></figure>
+
+<p>3）重启elasticsearch</p>
+<p>4）测试效果</p>
+<p><strong>参考文章</strong></p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/buchizicai/p/17093719.html">ElasticSearch (ES从入门到精通一篇就够了)</a></li>
+<li></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/hexoblog/tags/java/" rel="tag"># java</a>
+              <a href="/hexoblog/tags/elascitsearch/" rel="tag"># elascitsearch</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/hexoblog/java/snowflake-baidu-uid-generator/" rel="prev" title="雪花算法 百度uid-generator生成的id变成负数">
+                  <i class="fa fa-angle-left"></i> 雪花算法 百度uid-generator生成的id变成负数
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/hexoblog/java/es/es-02-index-mapping/" rel="next" title="es索引和文档操作">
+                  es索引和文档操作 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">chenpf</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">178k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:42</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/hexoblog/js/comments.js"></script><script src="/hexoblog/js/utils.js"></script><script src="/hexoblog/js/motion.js"></script><script src="/hexoblog/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/hexoblog/js/third-party/search/local-search.js"></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.5.0/mermaid.min.js","integrity":"sha256-K7oJiQlDulzl24ZUFOywuYme1JqBBvQzK6m8qHjt9Gk="}}</script>
+  <script src="/hexoblog/js/third-party/tags/mermaid.js"></script>
+
+
+
+  <script src="/hexoblog/js/third-party/pace.js"></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"pinglun-iota.vercel.app","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":[],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/hexoblog/java/es/es-01-install/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+</body>
+</html>

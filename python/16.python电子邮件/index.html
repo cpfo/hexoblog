@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/hexoblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/hexoblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/hexoblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/hexoblog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/hexoblog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"cpfo.github.io","root":"/hexoblog/","images":"/hexoblog/images","scheme":"Pisces","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/hexoblog/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/hexoblog/js/config.js"></script>
+
+    <meta name="description" content="使用SMTP发送邮件，使用POP3接收邮件。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="16.python电子邮件">
+<meta property="og:url" content="https://cpfo.github.io/hexoblog/python/16.python%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6/index.html">
+<meta property="og:site_name" content="笔记">
+<meta property="og:description" content="使用SMTP发送邮件，使用POP3接收邮件。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-09T07:56:43.000Z">
+<meta property="article:modified_time" content="2024-12-31T03:40:11.302Z">
+<meta property="article:author" content="chenpf">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://cpfo.github.io/hexoblog/python/16.python%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://cpfo.github.io/hexoblog/python/16.python%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6/","path":"python/16.python电子邮件/","title":"16.python电子邮件"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>16.python电子邮件 | 笔记</title>
+  
+
+  <script src="/hexoblog/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?1945a4916bc20e4a8d139e44acf429f5"></script>
+
+
+
+
+
+
+<link rel="dns-prefetch" href="pinglun-iota.vercel.app">
+  <noscript>
+    <link rel="stylesheet" href="/hexoblog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/hexoblog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">笔记</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/hexoblog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/hexoblog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/hexoblog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/hexoblog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/hexoblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SMTP%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">SMTP发送邮件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E9%80%81HTML%E9%82%AE%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">发送HTML邮件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E9%80%81%E9%99%84%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">发送附件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E9%80%81%E5%9B%BE%E7%89%87"><span class="nav-number">1.3.</span> <span class="nav-text">发送图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E6%97%B6%E6%94%AF%E6%8C%81HTML%E5%92%8CPlain%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.4.</span> <span class="nav-text">同时支持HTML和Plain格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86SMTP"><span class="nav-number">1.5.</span> <span class="nav-text">加密SMTP</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#POP3%E6%94%B6%E5%8F%96%E9%82%AE%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">POP3收取邮件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87POP3%E4%B8%8B%E8%BD%BD%E9%82%AE%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">通过POP3下载邮件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90%E9%82%AE%E4%BB%B6"><span class="nav-number">2.2.</span> <span class="nav-text">解析邮件</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">chenpf</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/hexoblog/archives/">
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/hexoblog/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/hexoblog/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cpfo.github.io/hexoblog/python/16.python%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/hexoblog/images/avatar.gif">
+      <meta itemprop="name" content="chenpf">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="16.python电子邮件 | 笔记">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          16.python电子邮件
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-01-09 15:56:43" itemprop="dateCreated datePublished" datetime="2024-01-09T15:56:43+08:00">2024-01-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-12-31 11:40:11" itemprop="dateModified" datetime="2024-12-31T11:40:11+08:00">2024-12-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">评论：</span>
+  
+    <a title="waline" href="/hexoblog/python/16.python%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/hexoblog/python/16.python%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>使用SMTP发送邮件，使用POP3接收邮件。</p>
+<span id="more"></span>
+
+<h1 id="SMTP发送邮件"><a href="#SMTP发送邮件" class="headerlink" title="SMTP发送邮件"></a>SMTP发送邮件</h1><p>SMTP是发送邮件的协议，Python内置对SMTP的支持，可以发送纯文本邮件、HTML邮件以及带附件的邮件。</p>
+<p>Python对SMTP支持有<code>smtplib</code>和<code>email</code>两个模块，<code>email</code>负责构造邮件，<code>smtplib</code>负责发送邮件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line">msg = MIMEText(<span class="string">&#x27;测试下邮件发送&#x27;</span>, <span class="string">&#x27;plain&#x27;</span>, <span class="string">&#x27;utf-8&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>注意到构造<code>MIMEText</code>对象时，第一个参数就是邮件正文，第二个参数是MIME的subtype，传入<code>&#39;plain&#39;</code>表示纯文本，最终的MIME就是<code>&#39;text/plain&#39;</code>，最后一定要用<code>utf-8</code>编码保证多语言兼容性。</p>
+<p>然后，通过SMTP发出去：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> email.header <span class="keyword">import</span> Header</span><br><span class="line"><span class="keyword">from</span> email.utils <span class="keyword">import</span> formataddr, parseaddr</span><br><span class="line"><span class="keyword">import</span> smtplib</span><br><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"><span class="keyword">from</span> email.mime.multipart <span class="keyword">import</span> MIMEMultipart</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">_format_addr</span>(<span class="params">s</span>):</span><br><span class="line">    name, addr = parseaddr(s)</span><br><span class="line">    <span class="keyword">return</span> formataddr((Header(name, <span class="string">&#x27;utf-8&#x27;</span>).encode(), addr))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 输入Email地址和口令:</span></span><br><span class="line">from_addr = <span class="string">&#x27;xxxxxx&#x27;</span></span><br><span class="line">password = <span class="string">&#x27;xxxx&#x27;</span></span><br><span class="line"><span class="comment"># 输入收件人地址:</span></span><br><span class="line">to_addr = <span class="string">&#x27;xxx@qq.com&#x27;</span></span><br><span class="line"><span class="comment"># 输入SMTP服务器地址:</span></span><br><span class="line">smtp_server = <span class="string">&#x27;xxx.xxx.com&#x27;</span></span><br><span class="line"></span><br><span class="line">msg = MIMEText(<span class="string">&#x27;哈哈哈哈哈&#x27;</span>, <span class="string">&#x27;plain&#x27;</span>, <span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line">msg[<span class="string">&#x27;From&#x27;</span>] = _format_addr(<span class="string">&#x27;测试下邮件发送 &lt;%s&gt;&#x27;</span> % from_addr)</span><br><span class="line">msg[<span class="string">&#x27;To&#x27;</span>] = _format_addr(<span class="string">&#x27;管理员 &lt;%s&gt;&#x27;</span> % to_addr)</span><br><span class="line">msg[<span class="string">&#x27;Subject&#x27;</span>] = Header(<span class="string">&#x27;来自SMTP的问候……&#x27;</span>, <span class="string">&#x27;utf-8&#x27;</span>).encode()</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> smtplib</span><br><span class="line">server = smtplib.SMTP(smtp_server, <span class="number">25</span>) <span class="comment"># SMTP协议默认端口是25</span></span><br><span class="line">server.set_debuglevel(<span class="number">1</span>)</span><br><span class="line">server.login(from_addr, password)</span><br><span class="line">server.sendmail(from_addr, [to_addr], msg.as_string())</span><br><span class="line">server.quit()</span><br></pre></td></tr></table></figure>
+<p>我们用<code>set_debuglevel(1)</code>就可以打印出和SMTP服务器交互的所有信息。SMTP协议就是简单的文本命令和响应。<code>login()</code>方法用来登录SMTP服务器，<code>sendmail()</code>方法就是发邮件，由于可以一次发给多个人，所以传入一个<code>list</code>，邮件正文是一个<code>str</code>，<code>as_string()</code>把<code>MIMEText</code>对象变成<code>str</code>。</p>
+<p>必须把<code>From</code>、<code>To</code>和<code>Subject</code>添加到<code>MIMEText</code>中，才是一封完整的邮件， 否则无法显示主题，收件人等信息。</p>
+<h2 id="发送HTML邮件"><a href="#发送HTML邮件" class="headerlink" title="发送HTML邮件"></a>发送HTML邮件</h2><p>如果我们要发送HTML邮件，方法很简单，在构造<code>MIMEText</code>对象时，把<code>HTML</code>字符串传进去，再把第二个参数由<code>plain</code>变为<code>html</code>就可以了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msg = MIMEText(<span class="string">&#x27;&lt;h1&gt;哈哈哈哈哈&lt;/h1&gt;&#x27;</span>, <span class="string">&#x27;html&#x27;</span>, <span class="string">&#x27;utf-8&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="发送附件"><a href="#发送附件" class="headerlink" title="发送附件"></a>发送附件</h2><p>可以构造一个<code>MIMEMultipart</code>对象代表邮件本身，然后往里面加上一个<code>MIMEText</code>作为邮件正文，再继续往里面加上表示附件的<code>MIMEBase</code>对象即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">msg = MIMEMultipart()</span><br><span class="line">msg[<span class="string">&#x27;From&#x27;</span>] = _format_addr(<span class="string">&#x27;Python爱好者 &lt;%s&gt;&#x27;</span> % from_addr)</span><br><span class="line">msg[<span class="string">&#x27;To&#x27;</span>] = _format_addr(<span class="string">&#x27;管理员 &lt;%s&gt;&#x27;</span> % to_addr)</span><br><span class="line">msg[<span class="string">&#x27;Subject&#x27;</span>] = Header(<span class="string">&#x27;来自SMTP的问候……&#x27;</span>, <span class="string">&#x27;utf-8&#x27;</span>).encode()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 邮件正文是MIMEText:</span></span><br><span class="line">msg.attach(MIMEText(<span class="string">&#x27;send with file...&#x27;</span>, <span class="string">&#x27;plain&#x27;</span>, <span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加附件就是加上一个MIMEBase，从本地读取一个图片:</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;D:/oldimg.jpg&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># 设置附件的MIME和文件名，这里是png类型:</span></span><br><span class="line">    mime = MIMEBase(<span class="string">&#x27;image&#x27;</span>, <span class="string">&#x27;jpg&#x27;</span>, filename=<span class="string">&#x27;oldimg.jpg&#x27;</span>)</span><br><span class="line">    <span class="comment"># 加上必要的头信息:</span></span><br><span class="line">    mime.add_header(<span class="string">&#x27;Content-Disposition&#x27;</span>, <span class="string">&#x27;attachment&#x27;</span>, filename=<span class="string">&#x27;oldimg.jpg&#x27;</span>)</span><br><span class="line">    mime.add_header(<span class="string">&#x27;Content-ID&#x27;</span>, <span class="string">&#x27;&lt;0&gt;&#x27;</span>)</span><br><span class="line">    mime.add_header(<span class="string">&#x27;X-Attachment-Id&#x27;</span>, <span class="string">&#x27;0&#x27;</span>)</span><br><span class="line">    <span class="comment"># 把附件的内容读进来:</span></span><br><span class="line">    mime.set_payload(f.read())</span><br><span class="line">    <span class="comment"># 用Base64编码:</span></span><br><span class="line">    encoders.encode_base64(mime)</span><br><span class="line">    <span class="comment"># 添加到MIMEMultipart:</span></span><br><span class="line">    msg.attach(mime)</span><br></pre></td></tr></table></figure>
+<p>然后，按正常发送流程把msg（注意类型已变为<code>MIMEMultipart</code>）发送出去，就可以收到如下带附件的邮件</p>
+<h2 id="发送图片"><a href="#发送图片" class="headerlink" title="发送图片"></a>发送图片</h2><p>如果要把一个图片嵌入到邮件正文中怎么做？直接在HTML邮件中链接图片地址行不行？答案是，大部分邮件服务商都会自动屏蔽带有外链的图片，因为不知道这些链接是否指向恶意网站。</p>
+<p>要把图片嵌入到邮件正文中，我们只需按照发送附件的方式，先把邮件作为附件添加进去，然后，在HTML中通过引用<code>src=&quot;cid:0&quot;</code>就可以把附件作为图片嵌入了。如果有多个图片，给它们依次编号，然后引用不同的<code>cid:x</code>即可。</p>
+<p>把上面代码加入<code>MIMEMultipart</code>的<code>MIMEText</code>从<code>plain</code>改为<code>html</code>，然后在适当的位置引用图片</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msg.attach(MIMEText(<span class="string">&#x27;&lt;html&gt;&lt;body&gt;&lt;h1&gt;下面是一个图片&lt;/h1&gt;&lt;br/&gt;&lt;img src=&quot;cid:0&quot;&gt;&lt;/body&gt;&lt;/html&gt;&#x27;</span>, <span class="string">&#x27;html&#x27;</span>, <span class="string">&#x27;utf-8&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="同时支持HTML和Plain格式"><a href="#同时支持HTML和Plain格式" class="headerlink" title="同时支持HTML和Plain格式"></a>同时支持HTML和Plain格式</h2><p>为了兼容旧设备，在发送HTML的同时再附加一个纯文本，如果收件人无法查看HTML格式的邮件，就可以自动降级查看纯文本邮件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">msg = MIMEMultipart(<span class="string">&#x27;alternative&#x27;</span>)</span><br><span class="line">msg[<span class="string">&#x27;From&#x27;</span>] = ...</span><br><span class="line">msg[<span class="string">&#x27;To&#x27;</span>] = ...</span><br><span class="line">msg[<span class="string">&#x27;Subject&#x27;</span>] = ...</span><br><span class="line"></span><br><span class="line">msg.attach(MIMEText(<span class="string">&#x27;hello&#x27;</span>, <span class="string">&#x27;plain&#x27;</span>, <span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">msg.attach(MIMEText(<span class="string">&#x27;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&#x27;</span>, <span class="string">&#x27;html&#x27;</span>, <span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"><span class="comment"># 正常发送msg对象...</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="加密SMTP"><a href="#加密SMTP" class="headerlink" title="加密SMTP"></a>加密SMTP</h2><p>使用标准的25端口连接SMTP服务器时，使用的是明文传输，发送邮件的整个过程可能会被窃听。要更安全地发送邮件，可以加密SMTP会话，实际上就是先创建SSL安全连接，然后再使用SMTP协议发送邮件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">server = smtplib.SMTP(smtp_server, <span class="number">465</span>) </span><br><span class="line">server.starttls()</span><br></pre></td></tr></table></figure>
+<p>只需要在创建SMTP对象后，立刻调用starttls()方法，就创建了安全连接。后面的代码和前面的发送邮件代码完全一样。</p>
+<p>构造一个邮件对象就是一个<code>Messag</code>对象，如果构造一个<code>MIMEText</code>对象，就表示一个文本邮件对象，如果构造一个<code>MIMEImage</code>对象，就表示一个作为附件的图片，要把多个对象组合起来，就用<code>MIMEMultipart</code>对象，而<code>MIMEBase</code>可以表示任何对象。它们的继承关系如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Message</span><br><span class="line">+- MIMEBase</span><br><span class="line">   +- MIMEMultipart</span><br><span class="line">   +- MIMENonMultipart</span><br><span class="line">      +- MIMEMessage</span><br><span class="line">      +- MIMEText</span><br><span class="line">      +- MIMEImage</span><br></pre></td></tr></table></figure>
+<p>这种嵌套关系就可以构造出任意复杂的邮件。</p>
+<h1 id="POP3收取邮件"><a href="#POP3收取邮件" class="headerlink" title="POP3收取邮件"></a>POP3收取邮件</h1><p>Python内置一个<code>poplib</code>模块，实现了POP3协议，可以直接用来收邮件。</p>
+<p>注意到POP3协议收取的不是一个已经可以阅读的邮件本身，而是邮件的原始文本，这和SMTP协议很像，SMTP发送的也是经过编码后的一大段文本。</p>
+<p>要把POP3收取的文本变成可以阅读的邮件，还需要用email模块提供的各种类来解析原始文本，变成可阅读的邮件对象。</p>
+<p>所以，收取邮件分两步：</p>
+<p>第一步：用<code>poplib</code>把邮件的原始文本下载到本地；</p>
+<p>第二步：用<code>email</code>解析原始文本，还原为邮件对象。</p>
+<h2 id="通过POP3下载邮件"><a href="#通过POP3下载邮件" class="headerlink" title="通过POP3下载邮件"></a>通过POP3下载邮件</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> poplib</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输入邮件地址, 口令和POP3服务器地址:</span></span><br><span class="line">email = <span class="built_in">input</span>(<span class="string">&#x27;Email: &#x27;</span>)</span><br><span class="line">password = <span class="built_in">input</span>(<span class="string">&#x27;Password: &#x27;</span>)</span><br><span class="line">pop3_server = <span class="built_in">input</span>(<span class="string">&#x27;POP3 server: &#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接到POP3服务器:</span></span><br><span class="line">server = poplib.POP3(pop3_server)</span><br><span class="line"><span class="comment"># 可以打开或关闭调试信息:</span></span><br><span class="line">server.set_debuglevel(<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 可选:打印POP3服务器的欢迎文字:</span></span><br><span class="line"><span class="built_in">print</span>(server.getwelcome().decode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 身份认证:</span></span><br><span class="line">server.user(email)</span><br><span class="line">server.pass_(password)</span><br><span class="line"></span><br><span class="line"><span class="comment"># stat()返回邮件数量和占用空间:</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Messages: %s. Size: %s&#x27;</span> % server.stat())</span><br><span class="line"><span class="comment"># list()返回所有邮件的编号:</span></span><br><span class="line">resp, mails, octets = server.<span class="built_in">list</span>()</span><br><span class="line"><span class="comment"># 可以查看返回的列表类似[b&#x27;1 82923&#x27;, b&#x27;2 2184&#x27;, ...]</span></span><br><span class="line"><span class="built_in">print</span>(mails)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取最新一封邮件, 注意索引号从1开始:</span></span><br><span class="line">index = <span class="built_in">len</span>(mails)</span><br><span class="line">resp, lines, octets = server.retr(index)</span><br><span class="line"></span><br><span class="line"><span class="comment"># lines存储了邮件的原始文本的每一行,</span></span><br><span class="line"><span class="comment"># 可以获得整个邮件的原始文本:</span></span><br><span class="line">msg_content = <span class="string">b&#x27;\r\n&#x27;</span>.join(lines).decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="comment"># 稍后解析出邮件:</span></span><br><span class="line">msg = Parser().parsestr(msg_content)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以根据邮件索引号直接从服务器删除邮件:</span></span><br><span class="line"><span class="comment"># server.dele(index)</span></span><br><span class="line"><span class="comment"># 关闭连接:</span></span><br><span class="line">server.quit()</span><br></pre></td></tr></table></figure>
+
+<p>用POP3获取邮件其实很简单，要获取所有邮件，只需要循环使用<code>retr()</code>把每一封邮件内容拿到即可。真正麻烦的是把邮件的原始内容解析为可以阅读的邮件对象。</p>
+<h2 id="解析邮件"><a href="#解析邮件" class="headerlink" title="解析邮件"></a>解析邮件</h2><p>解析邮件的过程和上一节构造邮件正好相反，因此，先导入必要的模块：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from email.parser import Parser</span><br><span class="line">from email.header import decode_header</span><br><span class="line">from email.utils import parseaddr</span><br><span class="line"></span><br><span class="line">import poplib</span><br></pre></td></tr></table></figure>
+<p>只需要一行代码就可以把邮件内容解析为<code>Message</code>对象：</p>
+<p>但是这个<code>Message</code>对象本身可能是一个<code>MIMEMultipart</code>对象，即包含嵌套的其他<code>MIMEBase</code>对象，嵌套可能还不止一层。</p>
+<p>所以我们要递归地打印出<code>Message</code>对象的层次结构：</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/hexoblog/tags/python/" rel="tag"># python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/hexoblog/python/15.python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="prev" title="15.python网络编程">
+                  <i class="fa fa-angle-left"></i> 15.python网络编程
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/hexoblog/python/17.python%E8%AE%BF%E9%97%AE%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="next" title="17.python访问数据库">
+                  17.python访问数据库 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">chenpf</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">178k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:42</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/hexoblog/js/comments.js"></script><script src="/hexoblog/js/utils.js"></script><script src="/hexoblog/js/motion.js"></script><script src="/hexoblog/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/hexoblog/js/third-party/search/local-search.js"></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.5.0/mermaid.min.js","integrity":"sha256-K7oJiQlDulzl24ZUFOywuYme1JqBBvQzK6m8qHjt9Gk="}}</script>
+  <script src="/hexoblog/js/third-party/tags/mermaid.js"></script>
+
+
+
+  <script src="/hexoblog/js/third-party/pace.js"></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"pinglun-iota.vercel.app","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":[],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/hexoblog/python/16.python%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+</body>
+</html>

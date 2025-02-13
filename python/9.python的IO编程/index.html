@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/hexoblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/hexoblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/hexoblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/hexoblog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/hexoblog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"cpfo.github.io","root":"/hexoblog/","images":"/hexoblog/images","scheme":"Pisces","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/hexoblog/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/hexoblog/js/config.js"></script>
+
+    <meta name="description" content="IO在计算机中指Input&#x2F;Output，也就是输入和输出。如磁盘IO，网络IO等。Stream（流）是一个很重要的概念，输入流和输出流。 由于CPU和内存的速度远远高于外设的速度，所以，在IO编程中，就存在速度严重不匹配的问题。可以分为同步和异步处理。 异步IO又包含了回调模模式和轮询模式等，在网络IO编程中比较常用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="9.python的IO编程">
+<meta property="og:url" content="https://cpfo.github.io/hexoblog/python/9.python%E7%9A%84IO%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="笔记">
+<meta property="og:description" content="IO在计算机中指Input&#x2F;Output，也就是输入和输出。如磁盘IO，网络IO等。Stream（流）是一个很重要的概念，输入流和输出流。 由于CPU和内存的速度远远高于外设的速度，所以，在IO编程中，就存在速度严重不匹配的问题。可以分为同步和异步处理。 异步IO又包含了回调模模式和轮询模式等，在网络IO编程中比较常用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-12-18T09:45:09.000Z">
+<meta property="article:modified_time" content="2024-12-31T03:39:23.901Z">
+<meta property="article:author" content="chenpf">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://cpfo.github.io/hexoblog/python/9.python%E7%9A%84IO%E7%BC%96%E7%A8%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://cpfo.github.io/hexoblog/python/9.python%E7%9A%84IO%E7%BC%96%E7%A8%8B/","path":"python/9.python的IO编程/","title":"9.python的IO编程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>9.python的IO编程 | 笔记</title>
+  
+
+  <script src="/hexoblog/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?1945a4916bc20e4a8d139e44acf429f5"></script>
+
+
+
+
+
+
+<link rel="dns-prefetch" href="pinglun-iota.vercel.app">
+  <noscript>
+    <link rel="stylesheet" href="/hexoblog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/hexoblog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">笔记</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/hexoblog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/hexoblog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/hexoblog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/hexoblog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/hexoblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99"><span class="nav-number">1.</span> <span class="nav-text">文件读写</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">读文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#file-like-Object"><span class="nav-number">1.2.</span> <span class="nav-text">file-like Object</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">二进制文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81"><span class="nav-number">1.4.</span> <span class="nav-text">字符编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E6%96%87%E4%BB%B6"><span class="nav-number">1.5.</span> <span class="nav-text">写文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#StringIO%E5%92%8CBytesIO"><span class="nav-number">2.</span> <span class="nav-text">StringIO和BytesIO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#StringIO"><span class="nav-number">2.1.</span> <span class="nav-text">StringIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BytesIO"><span class="nav-number">2.2.</span> <span class="nav-text">BytesIO</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95"><span class="nav-number">3.</span> <span class="nav-text">操作文件和目录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-number">3.1.</span> <span class="nav-text">环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95-1"><span class="nav-number">3.2.</span> <span class="nav-text">操作文件和目录</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pickle"><span class="nav-number">4.1.</span> <span class="nav-text">pickle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSON"><span class="nav-number">4.2.</span> <span class="nav-text">JSON</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSON%E8%BF%9B%E9%98%B6"><span class="nav-number">4.3.</span> <span class="nav-text">JSON进阶</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">chenpf</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/hexoblog/archives/">
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/hexoblog/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/hexoblog/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cpfo.github.io/hexoblog/python/9.python%E7%9A%84IO%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/hexoblog/images/avatar.gif">
+      <meta itemprop="name" content="chenpf">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="9.python的IO编程 | 笔记">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          9.python的IO编程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-12-18 17:45:09" itemprop="dateCreated datePublished" datetime="2023-12-18T17:45:09+08:00">2023-12-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-12-31 11:39:23" itemprop="dateModified" datetime="2024-12-31T11:39:23+08:00">2024-12-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">评论：</span>
+  
+    <a title="waline" href="/hexoblog/python/9.python%E7%9A%84IO%E7%BC%96%E7%A8%8B/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/hexoblog/python/9.python%E7%9A%84IO%E7%BC%96%E7%A8%8B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>8.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>IO在计算机中指Input&#x2F;Output，也就是输入和输出。如磁盘IO，网络IO等。Stream（流）是一个很重要的概念，输入流和输出流。</p>
+<p>由于CPU和内存的速度远远高于外设的速度，所以，在IO编程中，就存在速度严重不匹配的问题。可以分为同步和异步处理。</p>
+<p>异步IO又包含了回调模模式和轮询模式等，在网络IO编程中比较常用。</p>
+<span id="more"></span>
+
+<h1 id="文件读写"><a href="#文件读写" class="headerlink" title="文件读写"></a>文件读写</h1><p>读写文件是最常见的IO操作。Python内置了读写文件的函数，用法和C是兼容的。</p>
+<p>操作系统不允许普通程序直接操作磁盘，读写文件就是请求操作系统打开一个文件对象(通常称为文件描述符)，然后通过操作系统的接口进行读写操作。</p>
+<h2 id="读文件"><a href="#读文件" class="headerlink" title="读文件"></a>读文件</h2><p>读文件，用Python内置的<code>open()</code>函数，传入文件名和标示符</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; f=open(<span class="string">&#x27;D:/imgUrl.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>)</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt;</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; f=open(<span class="string">&#x27;D:/imgUrl.txtaa&#x27;</span>, <span class="string">&#x27;r&#x27;</span>)</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">FileNotFoundError: [Errno 2] No such file or directory: &#x27;D:/imgUrl.txtaa&#x27;</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>标示符<code>&#39;r&#39;</code>表示读，如果文件不存在，<code>open()</code>函数就会抛出一个<code>IOError</code>的错误，并且给出错误码和详细的信息告诉你文件不存在</p>
+<p>调用<code>read()</code>方法可以一次把文件内容读取到内存中，用一个<code>str</code>对象表示。</p>
+<p>最后一定要调用<code>close()</code>关闭文件，因为文件对象会占用操作系统的资源，并且操作系统同一时间能打开的文件数量也是有限的。和java一样。</p>
+<p>文件读取出错后，后面的close就不会执行了。所以，为了保证无论是否出错都能正确地关闭文件，我们可以使用<code>try ... finally</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    f = <span class="built_in">open</span>(<span class="string">&#x27;/path/to/file&#x27;</span>, <span class="string">&#x27;r&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(f.read())</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    <span class="keyword">if</span> f:</span><br><span class="line">        f.close()</span><br></pre></td></tr></table></figure>
+
+<p>但是每次都这样写太麻烦， Python引入了<code>with</code>语句来自动帮我们调用<code>close()</code>方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;/path/to/file&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="built_in">print</span>(f.read())</span><br></pre></td></tr></table></figure>
+
+<p>这和<code>try ... finally</code>是一样的，但是代码更简洁。</p>
+<p>调用<code>read()</code>会一次将文件内容读取到内存中，如果文件过大，内存就爆了，可以使用分治的方法，每次读取一部分内容。反复调用<code>read(size)</code>方法，每次最多读取<code>size</code>个字节的内容</p>
+<p>另外，调用<code>readline()</code>可以每次读取一行内容，调用<code>readlines()</code>一次读取所有内容并按行返回<code>list</code>。因此，要根据需要决定怎么调用。</p>
+<p>如果文件很小，<code>read()</code>一次性读取最方便；如果不能确定文件大小，反复调用<code>read(size)</code>比较保险；如果是配置文件，调用<code>readlines()</code>最方便：</p>
+<p>可以使用 <code>line.strip()</code> 把末尾的<code>\n</code> 换行符去掉</p>
+<p>例子</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读文件遍历 </span></span><br><span class="line"><span class="keyword">with</span>(<span class="built_in">open</span>(<span class="string">&#x27;D:/imgUrl.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>)) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># 直接迭代文件对象</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">        <span class="comment">#print(len(line))</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 一次全部读入内存</span></span><br><span class="line"><span class="keyword">with</span>(<span class="built_in">open</span>(<span class="string">&#x27;D:/imgUrl.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>)) <span class="keyword">as</span> f:</span><br><span class="line">    l = f.readlines()</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">len</span>(l))</span><br><span class="line">    <span class="keyword">for</span> s <span class="keyword">in</span> l:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">        <span class="comment">#print(s.strip())</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 按行读取</span></span><br><span class="line"><span class="keyword">with</span>(<span class="built_in">open</span>(<span class="string">&#x27;D:/imgUrl.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>)) <span class="keyword">as</span> f:</span><br><span class="line">    line = f.readline()</span><br><span class="line">    <span class="keyword">while</span> line:</span><br><span class="line">        <span class="comment">#print(line.strip())</span></span><br><span class="line">        line = f.readline()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 按size读取</span></span><br><span class="line"><span class="keyword">with</span>(<span class="built_in">open</span>(<span class="string">&#x27;D:/imgUrl.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>)) <span class="keyword">as</span> f:</span><br><span class="line">    size = <span class="number">50</span></span><br><span class="line">    data = f.read(size)</span><br><span class="line">    <span class="keyword">while</span> data:</span><br><span class="line">        <span class="built_in">print</span>(data)</span><br><span class="line">        data = f.read(size)</span><br></pre></td></tr></table></figure>
+
+<h2 id="file-like-Object"><a href="#file-like-Object" class="headerlink" title="file-like Object"></a>file-like Object</h2><p>像<code>open()</code>函数返回的这种有个<code>read()</code>方法的对象，在Python中统称为file-like Object。除了file外，还可以是内存的字节流，网络流，自定义流等等。file-like Object不要求从特定类继承，只要写个read()方法就行。</p>
+<p><code>StringIO</code> 就是在内存中创建的file-like Object，常用作临时缓冲。</p>
+<h2 id="二进制文件"><a href="#二进制文件" class="headerlink" title="二进制文件"></a>二进制文件</h2><p>上面的默认都是读取的<code>utf-8</code>编码的文本文件，如果是二进制文件，比如图片等，需要用<code>&#39;rb&#39;</code> 模式打开文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; f = open(<span class="string">&#x27;D:/123.png&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>)</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; f.readline()</span></span><br><span class="line">b&#x27;\x89PNG\r\n&#x27;</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h2><p>要读取非UTF-8编码的文本文件，需要给<code>open()</code>函数传入<code>encoding</code>参数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; f=open(<span class="string">&#x27;D:/gb2312-test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;gb2312&#x27;</span>, errors=<span class="string">&#x27;ignore&#x27;</span>)</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; f.readline()</span></span><br><span class="line">&#x27;中文编码测试\n&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>如果有一些非法的编码，可能会报错<code>UnicodeDecodeError</code>，可以指定<code>errors</code>参数忽略错误</p>
+<h2 id="写文件"><a href="#写文件" class="headerlink" title="写文件"></a>写文件</h2><p>写文件和读文件是一样的，唯一区别是调用<code>open()</code>函数时，传入标识符<code>&#39;w&#39;</code>或者<code>&#39;wb&#39;</code>表示写文本文件或写二进制文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;D:/write-test.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>)</span><br><span class="line">f.write(<span class="string">&#x27;哈哈哈哈\n&#x27;</span>)</span><br><span class="line">f.close()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以反复调用<code>write()</code>来写文件，但是一定要调用<code>f.close()</code>方法来关闭文件，否则可能发会导致要写入的数据只写了一部分。只有调用<code>close()</code>方法时，操作系统才保证把没有写入的数据全部写入磁盘。</p>
+<p>所以还是使用<code>with</code>最保险</p>
+<p>要写入特定编码的文本文件，可以给<code>open()</code>函数传入<code>encoding</code>参数</p>
+<p>以 <code>&#39;w&#39;</code>模式写文件时，每次写入会覆盖，可以将<code>&#39;w&#39;</code> 改为 <code>&#39;a&#39;</code> 来使用追加模式写入。</p>
+<h1 id="StringIO和BytesIO"><a href="#StringIO和BytesIO" class="headerlink" title="StringIO和BytesIO"></a>StringIO和BytesIO</h1><h2 id="StringIO"><a href="#StringIO" class="headerlink" title="StringIO"></a>StringIO</h2><p>很多时候，数据读写不一定是文件，也可以在内存中读写。</p>
+<p>StringIO就是在内存中读写str。要把str写入StringIO，我们需要先创建一个StringIO，然后，像文件一样写入即可</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; from io import StringIO</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; f = StringIO()</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; f.write(<span class="string">&#x27;大&#x27;</span>)</span></span><br><span class="line">1</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; f.write(<span class="string">&#x27;\n&#x27;</span>)</span></span><br><span class="line">1</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; f.write(<span class="string">&#x27;家好&#x27;</span>)</span></span><br><span class="line">2</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; f.getvalue()</span></span><br><span class="line">&#x27;大\n家好&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><code>getvalue()</code>方法用于获得写入后的str。</p>
+<p>要读取StringIO，可以用一个str初始化StringIO，然后，像读文件一样读取</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">f = StringIO(<span class="string">&#x27;大\n家\n好&#x27;</span>)</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    s = f.readline()</span><br><span class="line">    <span class="keyword">if</span> s == <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="built_in">print</span>(s.strip())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="BytesIO"><a href="#BytesIO" class="headerlink" title="BytesIO"></a>BytesIO</h2><p>StringIO操作的只能是str，如果要操作二进制数据，就需要使用BytesIO。</p>
+<p>BytesIO实现了在内存中读写bytes，我们创建一个BytesIO，然后写入一些bytes：</p>
+<p>写入的不是str，而是经过UTF-8编码的bytes</p>
+<p>和StringIO类似，可以用一个bytes初始化BytesIO，然后，像读文件一样读取</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">f = BytesIO()</span><br><span class="line">f.write(<span class="string">&#x27;中文&#x27;</span>.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(f.getvalue())</span><br><span class="line"><span class="built_in">print</span>(f.getvalue().decode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用bytes初始化</span></span><br><span class="line">f = BytesIO(<span class="string">&#x27;中文&#x27;</span>.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(f.read())</span><br></pre></td></tr></table></figure>
+
+<h1 id="操作文件和目录"><a href="#操作文件和目录" class="headerlink" title="操作文件和目录"></a>操作文件和目录</h1><p>内置的<code>os</code>模块可以直接调用操作系统提供的接口操作文件和目录。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; import os</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; os.name</span></span><br><span class="line">&#x27;posix&#x27;</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; os.uname()</span></span><br><span class="line">(&#x27;Linux&#x27;, &#x27;dev&#x27;, &#x27;3.10.0-1160.90.1.el7.x86_64&#x27;, &#x27;#1 SMP Thu May 4 15:21:22 UTC 2023&#x27;, &#x27;x86_64&#x27;)</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt;</span> </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; os.name</span></span><br><span class="line">&#x27;nt&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>如果是<code>posix</code>，说明系统是<code>Linux</code>、<code>Unix</code>或<code>Mac OS X</code>，如果是<code>nt</code>，就是<code>Windows</code>系统。</p>
+<p>要获取详细的系统信息，可以调用<code>uname()</code>函数, windows系统不支持该函数。<code>os</code>模块的某些函数是跟操作系统相关的</p>
+<h2 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h2><p><code>os.environ</code> 可以查看全部的环境变量。要获取某个环境变量的值，可以调用<code>os.environ.get(&#39;key&#39;)</code>：</p>
+<h2 id="操作文件和目录-1"><a href="#操作文件和目录-1" class="headerlink" title="操作文件和目录"></a>操作文件和目录</h2><p>操作文件和目录的函数一部分放在os模块中，一部分放在os.path模块中。</p>
+<p>把两个路径合成一个时，不要直接拼字符串，而要通过<code>os.path.join()</code>函数，这样可以正确处理不同操作系统的路径分隔符。</p>
+<p>拆分路径的时候，要使用<code>os.path.split()</code>，这样可以把一个路径拆分为两部分，后一部分总是最后级别的目录或文件名。</p>
+<p><code>os.path.splitext()</code>可以直接得到文件的扩展名。</p>
+<p>这些合并、拆分路径的函数并不要求目录和文件要真实存在，它们只对字符串进行操作。</p>
+<p><code>os.rename()</code> 对文件重命名。<code>os.remove</code> 删除文件。</p>
+<h1 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h1><p>程序运行的过程中，所有的变量都是在内存中。在程序运行结束后，变量就会被操作系统回收。</p>
+<p>把变量从内存中变成可存储或传输的过程称之为序列化，在Python中叫pickling，在其他语言中也被称之为serialization，marshalling，flattening等等，都是一个意思</p>
+<p>序列化之后，就可以把序列化的内容写入到磁盘，或者通过网络传输。</p>
+<p>把变量内容从序列化的对象重新读到内存里称之为反序列化，即unpickling。</p>
+<h2 id="pickle"><a href="#pickle" class="headerlink" title="pickle"></a>pickle</h2><p>Python提供了<code>pickle</code>模块来实现序列化。</p>
+<p><code>pickle.dumps()</code>方法把任意对象序列化成一个<code>bytes</code>，然后，就可以把这个<code>bytes</code>写入文件。</p>
+<p>或者用另一个方法<code>pickle.dump()</code>直接把对象序列化后写入一个file-like Object：</p>
+<p>当我们要把对象从磁盘读到内存时，可以先把内容读到一个<code>bytes</code>，然后用<code>pickle.loads()</code>方法反序列化出对象，也可以直接用<code>pickle.load()</code>方法从一个file-like Object中直接反序列化出对象。</p>
+<p>通过这种方式反序列化的变量内容相同，但是实际上不是同一个变量了。</p>
+<p>Pickle的序列化只能用于python，可能python的不同版本也不兼容，也不能跨语言。所以不能保存重要的数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">l = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">1</span>,<span class="number">10</span>))</span><br><span class="line"><span class="built_in">print</span>(pickle.dumps(l))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 序列化到文件中</span></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;D:/tmpdump.txt&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line">pickle.dump(l, f)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 反序列化 先读取成bytes</span></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;D:/tmpdump.txt&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>)</span><br><span class="line">b = f.read()</span><br><span class="line">data = pickle.loads(b)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(data))</span><br><span class="line"><span class="built_in">print</span>(data)</span><br><span class="line"></span><br><span class="line"><span class="comment">#直接从文件反序列化</span></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;D:/tmpdump.txt&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>)</span><br><span class="line">d = pickle.load(f)</span><br><span class="line"><span class="built_in">print</span>(d)</span><br></pre></td></tr></table></figure>
+
+<p>结果</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">b&#x27;\x80\x04\x95\x17\x00\x00\x00\x00\......省略....&#x27;</span><br><span class="line">&lt;class &#x27;list&#x27;&gt;</span><br><span class="line">[1, 2, 3, 4, 5, 6, 7, 8, 9]</span><br><span class="line">[1, 2, 3, 4, 5, 6, 7, 8, 9]</span><br></pre></td></tr></table></figure>
+
+<h2 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h2><p>如果我们要在不同的编程语言之间传递对象，就必须把对象序列化为标准格式，比如XML，但更好的方法是序列化为JSON。</p>
+<p>JSON和Python内置的数据类型对应如下</p>
+<table>
+<thead>
+<tr>
+<th align="left">JSON类型</th>
+<th align="left">Python类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">{}</td>
+<td align="left">dict</td>
+</tr>
+<tr>
+<td align="left">[]</td>
+<td align="left">list</td>
+</tr>
+<tr>
+<td align="left">“string”</td>
+<td align="left">str</td>
+</tr>
+<tr>
+<td align="left">12.3</td>
+<td align="left">int或float</td>
+</tr>
+<tr>
+<td align="left">true&#x2F;false</td>
+<td align="left">True&#x2F;False</td>
+</tr>
+<tr>
+<td align="left">null</td>
+<td align="left">None</td>
+</tr>
+</tbody></table>
+<p>Python内置的json模块提供了非常完善的Python对象到JSON格式的转换。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; d = dict(name=<span class="string">&#x27;张三&#x27;</span>, age=20, height=130.5, interest=[<span class="string">&#x27;篮球&#x27;</span>, <span class="string">&#x27;唱歌&#x27;</span>])</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt;</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; d</span></span><br><span class="line">&#123;&#x27;name&#x27;: &#x27;张三&#x27;, &#x27;age&#x27;: 20, &#x27;height&#x27;: 130.5, &#x27;interest&#x27;: [&#x27;篮球&#x27;, &#x27;唱歌&#x27;]&#125;</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; json.dumps(d)</span></span><br><span class="line">&#x27;&#123;&quot;name&quot;: &quot;\\u5f20\\u4e09&quot;, &quot;age&quot;: 20, &quot;height&quot;: 130.5, &quot;interest&quot;: [&quot;\\u7bee\\u7403&quot;, &quot;\\u5531\\u6b4c&quot;]&#125;&#x27;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; json.dumps(d,ensure_ascii=False)</span></span><br><span class="line">&#x27;&#123;&quot;name&quot;: &quot;张三&quot;, &quot;age&quot;: 20, &quot;height&quot;: 130.5, &quot;interest&quot;: [&quot;篮球&quot;, &quot;唱歌&quot;]&#125;&#x27;</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt;</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; s=json.dumps(d)</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; json.loads(s)</span></span><br><span class="line">&#123;&#x27;name&#x27;: &#x27;张三&#x27;, &#x27;age&#x27;: 20, &#x27;height&#x27;: 130.5, &#x27;interest&#x27;: [&#x27;篮球&#x27;, &#x27;唱歌&#x27;]&#125;</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt;</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>dumps()</code>方法返回一个<code>str</code>，内容是标准的json，类似的 <code>dump()</code>方法可以直接把json写入到<code>file-like Object</code></p>
+<p>使用<code>loads()</code>方法把json字符串反序列化，或者使用<code>load()</code>方法从<code>file-like Object</code>中读取字符串并反序列化。</p>
+<h2 id="JSON进阶"><a href="#JSON进阶" class="headerlink" title="JSON进阶"></a>JSON进阶</h2><p><code>dict</code>对象可以直接序列化为JSON的<code>&#123;&#125;</code>，不过，很多时候，我们更喜欢用class表示对象，比如定义Student类，然后序列化：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name, age, score</span>):</span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line">        self.score = score</span><br><span class="line"></span><br><span class="line">s = Student(<span class="string">&#x27;Bob&#x27;</span>, <span class="number">20</span>, <span class="number">88</span>)</span><br><span class="line"><span class="built_in">print</span>(json.dumps(s))</span><br></pre></td></tr></table></figure>
+
+<p>运行时，会报<code>TypeError</code>，是因为<code>Student</code>对象不是一个可序列化为JSON的对象。</p>
+<p><code>dumps()</code>函数有很多可选参数，可以用来定制json序列化。</p>
+<p>可选参数<code>default</code>就是把任意一个对象变成一个可序列为JSON的对象，我们只需要为<code>Student</code>专门写一个转换函数，再把函数传进去即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">student2dict</span>(<span class="params">std</span>):</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">&#x27;name&#x27;</span>: std.name,</span><br><span class="line">        <span class="string">&#x27;age&#x27;</span>: std.age,</span><br><span class="line">        <span class="string">&#x27;score&#x27;</span>: std.score</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(json.dumps(s, default=student2dict))</span><br></pre></td></tr></table></figure>
+
+<p>不过，如果遇到其他类的实例，依然无法序列化，可以默认把任意<code>class</code>的实例变为<code>dict</code></p>
+<blockquote>
+<p>print(json.dumps(s, default&#x3D;lambda obj: obj.<strong>dict</strong>))</p>
+</blockquote>
+<p>因为通常<code>class</code>的实例都有一个<code>__dict__</code>属性，它就是一个<code>dict</code>，用来存储实例变量。也有少数例外，比如定义了<code>__slots__</code>的class。</p>
+<p>如果我们要把JSON反序列化为一个<code>Student</code>对象实例，<code>loads()</code>方法首先转换出一个<code>dict</code>对象，然后，我们传入的<code>object_hook</code>函数负责把<code>dict</code>转换为<code>Student</code>实例</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; s = <span class="string">&#x27;&#123;&quot;name&quot;: &quot;张三&quot;, &quot;age&quot;: 20, &quot;height&quot;: 130.5, &quot;interest&quot;: [&quot;篮球&quot;, &quot;唱歌&quot;]&#125;&#x27;</span></span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; stu = json.loads(s, object_hook=dict2student)</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; <span class="built_in">print</span>(stu)</span></span><br><span class="line">&lt;__main__.Student object at 0x000002615C4962A0&gt;</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt;</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; <span class="built_in">print</span>(json.dumps(stu, default=lambda obj: obj.__dict__, ensure_ascii=False))</span></span><br><span class="line">&#123;&quot;name&quot;: &quot;张三&quot;, &quot;age&quot;: 20, &quot;score&quot;: 130.5&#125;</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>ensure_ascii</code>用于指定在对JSON进行编码时是否对非ASCII字符进行转义，确保生成的JSON字符串中只包含ASCII字符。</p>
+<p><code>ensure_ascii</code>参数默认值为True，表示会对非ASCII字符进行转义，将其表示为<code>\uXXXX</code>的形式。 如果将<code>ensure_ascii</code>参数设置为<code>False</code>，则表示不对非ASCII字符进行转义。非ASCII字符将以原样包含在生成的JSON字符串中。</p>
+<p>通常情况下，需要保持默认值，这样可以确保生成的JSON字符串是有效的ASCII字符串，可以在不同的系统之间进行传输和解析。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/hexoblog/tags/python/" rel="tag"># python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/hexoblog/python/8.python%E9%94%99%E8%AF%AF%E5%92%8C%E8%B0%83%E8%AF%95/" rel="prev" title="8.python错误和调试">
+                  <i class="fa fa-angle-left"></i> 8.python错误和调试
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/hexoblog/python/10.python%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/" rel="next" title="10.python进程和线程">
+                  10.python进程和线程 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">chenpf</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">178k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:42</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/hexoblog/js/comments.js"></script><script src="/hexoblog/js/utils.js"></script><script src="/hexoblog/js/motion.js"></script><script src="/hexoblog/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/hexoblog/js/third-party/search/local-search.js"></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.5.0/mermaid.min.js","integrity":"sha256-K7oJiQlDulzl24ZUFOywuYme1JqBBvQzK6m8qHjt9Gk="}}</script>
+  <script src="/hexoblog/js/third-party/tags/mermaid.js"></script>
+
+
+
+  <script src="/hexoblog/js/third-party/pace.js"></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"pinglun-iota.vercel.app","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":[],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/hexoblog/python/9.python%E7%9A%84IO%E7%BC%96%E7%A8%8B/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+</body>
+</html>
