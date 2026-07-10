@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.1.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/hexoblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/hexoblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/hexoblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/hexoblog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/hexoblog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"cpfo.github.io","root":"/hexoblog/","images":"/hexoblog/images","scheme":"Gemini","darkmode":false,"version":"8.28.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"language":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/hexoblog/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/hexoblog/js/config.js" defer></script>
+
+    <meta name="description" content="在 Mac 上用 Homebrew 安装命令行工具，可以把很多系统自带命令升级成更高效、更现代的版本。比如文件搜索、目录查看、系统监控、网络调试、媒体处理、Java&#x2F;Node 环境管理等，都可以通过一套统一的命令完成安装和更新。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac 常用 Homebrew 命令行工具整理">
+<meta property="og:url" content="https://cpfo.github.io/hexoblog/tools/homebrew-cli-tools/index.html">
+<meta property="og:site_name" content="笔记">
+<meta property="og:description" content="在 Mac 上用 Homebrew 安装命令行工具，可以把很多系统自带命令升级成更高效、更现代的版本。比如文件搜索、目录查看、系统监控、网络调试、媒体处理、Java&#x2F;Node 环境管理等，都可以通过一套统一的命令完成安装和更新。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-07-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-10T10:40:25.430Z">
+<meta property="article:author" content="chenpf">
+<meta property="article:tag" content="CLI">
+<meta property="article:tag" content="Homebrew">
+<meta property="article:tag" content="Mac">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://cpfo.github.io/hexoblog/tools/homebrew-cli-tools/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://cpfo.github.io/hexoblog/tools/homebrew-cli-tools/","path":"tools/homebrew-cli-tools/","title":"Mac 常用 Homebrew 命令行工具整理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Mac 常用 Homebrew 命令行工具整理 | 笔记</title>
+  
+
+  <script src="/hexoblog/js/third-party/analytics/baidu-analytics.js" defer></script>
+  <script async src="https://hm.baidu.com/hm.js?1945a4916bc20e4a8d139e44acf429f5"></script>
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
+<script src="/hexoblog/js/utils.js" defer></script><script src="/hexoblog/js/motion.js" defer></script><script src="/hexoblog/js/sidebar.js" defer></script><script src="/hexoblog/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/hexoblog/js/third-party/search/local-search.js" defer></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/hexoblog/js/third-party/tags/mermaid.js" defer></script>
+
+
+  <script src="/hexoblog/js/third-party/fancybox.js" defer></script>
+
+  <script src="/hexoblog/js/third-party/pace.js" defer></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<link rel="dns-prefetch" href="hexo-comments-weld.vercel.app">
+  <noscript>
+    <link rel="stylesheet" href="/hexoblog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/hexoblog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">笔记</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/hexoblog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/hexoblog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/hexoblog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/hexoblog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/hexoblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%92%8C%E7%BB%B4%E6%8A%A4"><span class="nav-number">1.</span> <span class="nav-text">安装和维护</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E5%B7%A5%E5%85%B7"><span class="nav-number">2.</span> <span class="nav-text">文件和目录工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#eza"><span class="nav-number">2.1.</span> <span class="nav-text">eza</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fd"><span class="nav-number">2.2.</span> <span class="nav-text">fd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ripgrep"><span class="nav-number">2.3.</span> <span class="nav-text">ripgrep</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tree"><span class="nav-number">2.4.</span> <span class="nav-text">tree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bat"><span class="nav-number">2.5.</span> <span class="nav-text">bat</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E5%92%8C%E7%B3%BB%E7%BB%9F%E7%9B%91%E6%8E%A7"><span class="nav-number">3.</span> <span class="nav-text">磁盘和系统监控</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#btop"><span class="nav-number">3.1.</span> <span class="nav-text">btop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#duf"><span class="nav-number">3.2.</span> <span class="nav-text">duf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dust"><span class="nav-number">3.3.</span> <span class="nav-text">dust</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ncdu"><span class="nav-number">3.4.</span> <span class="nav-text">ncdu</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fastfetch"><span class="nav-number">3.5.</span> <span class="nav-text">fastfetch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E4%BA%92%E5%92%8C%E7%BB%88%E7%AB%AF%E6%95%88%E7%8E%87"><span class="nav-number">4.</span> <span class="nav-text">交互和终端效率</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fzf"><span class="nav-number">4.1.</span> <span class="nav-text">fzf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zoxide"><span class="nav-number">4.2.</span> <span class="nav-text">zoxide</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zellij"><span class="nav-number">4.3.</span> <span class="nav-text">zellij</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zsh-autosuggestions"><span class="nav-number">4.4.</span> <span class="nav-text">zsh-autosuggestions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zsh-syntax-highlighting"><span class="nav-number">4.5.</span> <span class="nav-text">zsh-syntax-highlighting</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%92%8C%E4%BC%A0%E8%BE%93%E5%B7%A5%E5%85%B7"><span class="nav-number">5.</span> <span class="nav-text">网络和传输工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#httpie"><span class="nav-number">5.1.</span> <span class="nav-text">httpie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#telnet"><span class="nav-number">5.2.</span> <span class="nav-text">telnet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lrzsz"><span class="nav-number">5.3.</span> <span class="nav-text">lrzsz</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AA%92%E4%BD%93%E5%92%8C%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF"><span class="nav-number">6.</span> <span class="nav-text">媒体和文件信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ffmpeg"><span class="nav-number">6.1.</span> <span class="nav-text">ffmpeg</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#exiftool"><span class="nav-number">6.2.</span> <span class="nav-text">exiftool</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%AE%E5%8A%A9%E6%96%87%E6%A1%A3"><span class="nav-number">7.</span> <span class="nav-text">帮助文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tldr"><span class="nav-number">7.1.</span> <span class="nav-text">tldr</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E7%BB%84%E5%90%88"><span class="nav-number">8.</span> <span class="nav-text">推荐组合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2%E6%96%87%E4%BB%B6%E5%B9%B6%E6%9F%A5%E7%9C%8B%E5%86%85%E5%AE%B9"><span class="nav-number">8.1.</span> <span class="nav-text">搜索文件并查看内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2%E6%96%87%E6%9C%AC%E5%B9%B6%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6"><span class="nav-number">8.2.</span> <span class="nav-text">搜索文本并打开文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%BE%E5%87%BA%E5%A4%A7%E7%9B%AE%E5%BD%95%E5%B9%B6%E6%B8%85%E7%90%86"><span class="nav-number">8.3.</span> <span class="nav-text">找出大目录并清理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E9%A1%B9%E7%9B%AE%E6%A6%82%E5%86%B5"><span class="nav-number">8.4.</span> <span class="nav-text">查看项目概况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API-%E8%B0%83%E8%AF%95"><span class="nav-number">8.5.</span> <span class="nav-text">API 调试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">9.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">chenpf</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/hexoblog/archives/">
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/hexoblog/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/hexoblog/tags/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cpfo.github.io/hexoblog/tools/homebrew-cli-tools/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/hexoblog/images/avatar.gif">
+      <meta itemprop="name" content="chenpf">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Mac 常用 Homebrew 命令行工具整理 | 笔记">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Mac 常用 Homebrew 命令行工具整理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-07-10 00:00:00 / 修改时间：18:40:25" itemprop="dateCreated datePublished" datetime="2026-07-10T00:00:00+08:00">2026-07-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/hexoblog/tools/homebrew-cli-tools/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/hexoblog/tools/homebrew-cli-tools/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>在 Mac 上用 Homebrew 安装命令行工具，可以把很多系统自带命令升级成更高效、更现代的版本。比如文件搜索、目录查看、系统监控、网络调试、媒体处理、Java&#x2F;Node 环境管理等，都可以通过一套统一的命令完成安装和更新。</p>
+<span id="more"></span>
+
+<h2 id="安装和维护"><a href="#安装和维护" class="headerlink" title="安装和维护"></a>安装和维护</h2><p>常见的 Homebrew 操作如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">搜索软件</span></span><br><span class="line">brew search ripgrep</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看软件信息</span></span><br><span class="line">brew info ripgrep</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装软件</span></span><br><span class="line">brew install ripgrep</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">更新 Homebrew 索引</span></span><br><span class="line">brew update</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">升级已安装软件</span></span><br><span class="line">brew upgrade</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看已安装软件</span></span><br><span class="line">brew list</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">卸载软件</span></span><br><span class="line">brew uninstall ripgrep</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">清理旧版本缓存</span></span><br><span class="line">brew cleanup</span><br></pre></td></tr></table></figure>
+
+<p>如果想把当前安装的软件保存下来，方便换机器恢复，可以使用 <code>brew bundle</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">导出 Brewfile</span></span><br><span class="line">brew bundle dump --file Brewfile</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在新机器按 Brewfile 安装</span></span><br><span class="line">brew bundle install --file Brewfile</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件和目录工具"><a href="#文件和目录工具" class="headerlink" title="文件和目录工具"></a>文件和目录工具</h2><h3 id="eza"><a href="#eza" class="headerlink" title="eza"></a>eza</h3><p><code>eza</code> 是 <code>ls</code> 的现代替代品，输出更清晰，支持图标、Git 状态、树形目录等功能。</p>
+<p>好处：</p>
+<ul>
+<li>比 <code>ls</code> 更易读，颜色和文件类型区分更明显。</li>
+<li>可以直接显示 Git 状态，适合开发目录。</li>
+<li>树形展示比 <code>tree</code> 更适合和文件详情一起使用。</li>
+</ul>
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">列出文件详情</span></span><br><span class="line">eza -l</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">显示隐藏文件</span></span><br><span class="line">eza -la</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">按树形结构显示两层目录</span></span><br><span class="line">eza --tree --level=2</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">显示 Git 状态</span></span><br><span class="line">eza -la --git</span><br></pre></td></tr></table></figure>
+
+<p>可以在 <code>~/.zshrc</code> 中加别名：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">alias ls=&#x27;eza&#x27;</span><br><span class="line">alias ll=&#x27;eza -la --git&#x27;</span><br><span class="line">alias tree=&#x27;eza --tree&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="fd"><a href="#fd" class="headerlink" title="fd"></a>fd</h3><p><code>fd</code> 是 <code>find</code> 的替代品，语法更简单，默认忽略 <code>.gitignore</code> 中的文件，搜索速度也更快。</p>
+<p>好处：</p>
+<ul>
+<li>命令更短，不需要写复杂的 <code>find . -name</code>。</li>
+<li>默认彩色输出，可读性更好。</li>
+<li>和 <code>xargs</code>、<code>fzf</code>、编辑器结合非常方便。</li>
+</ul>
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查找 markdown 文件</span></span><br><span class="line">fd &#x27;\.md$&#x27;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查找文件名包含 config 的文件</span></span><br><span class="line">fd config</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">包含隐藏文件</span></span><br><span class="line">fd -H config</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在指定目录查找</span></span><br><span class="line">fd package source</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">找到后执行命令</span></span><br><span class="line">fd &#x27;\.log$&#x27; -x rm &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ripgrep"><a href="#ripgrep" class="headerlink" title="ripgrep"></a>ripgrep</h3><p><code>ripgrep</code> 的命令是 <code>rg</code>，可以替代 <code>grep</code>，用于全文搜索。它默认尊重 <code>.gitignore</code>，在代码仓库里搜索非常快。</p>
+<p>好处：</p>
+<ul>
+<li>搜索速度快，适合大项目。</li>
+<li>默认递归搜索当前目录。</li>
+<li>支持正则、文件类型过滤、上下文显示。</li>
+</ul>
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">搜索关键字</span></span><br><span class="line">rg &quot;Homebrew&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">搜索指定文件类型</span></span><br><span class="line">rg &quot;function&quot; -t js</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">显示上下文</span></span><br><span class="line">rg &quot;error&quot; -C 2</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">只显示文件名</span></span><br><span class="line">rg -l &quot;TODO&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">忽略大小写</span></span><br><span class="line">rg -i &quot;readme&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="tree"><a href="#tree" class="headerlink" title="tree"></a>tree</h3><p><code>tree</code> 用于以树形结构展示目录。虽然 <code>eza --tree</code> 也能做类似事情，但 <code>tree</code> 输出稳定，适合写文档、生成目录结构说明。</p>
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">显示当前目录树</span></span><br><span class="line">tree</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">只显示两层</span></span><br><span class="line">tree -L 2</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">忽略 node_modules 和 .git</span></span><br><span class="line">tree -L 2 -I &#x27;node_modules|.git&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="bat"><a href="#bat" class="headerlink" title="bat"></a>bat</h3><p><code>bat</code> 是 <code>cat</code> 的增强版，支持语法高亮、行号、Git 修改标记和分页显示。</p>
+<p>好处：</p>
+<ul>
+<li>查看代码比 <code>cat</code> 清楚。</li>
+<li>自动分页，长文件不会一次刷满终端。</li>
+<li>支持显示不可见字符、指定语言高亮。</li>
+</ul>
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看文件</span></span><br><span class="line">bat README.md</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">不分页输出，适合管道</span></span><br><span class="line">bat --paging=never README.md</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">显示指定行范围</span></span><br><span class="line">bat -r 10:30 README.md</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">作为 <span class="built_in">cat</span> 使用</span></span><br><span class="line">bat -pp README.md</span><br></pre></td></tr></table></figure>
+
+<p>可以设置别名：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alias cat=&#x27;bat&#x27;</span><br></pre></td></tr></table></figure>
+
+<h2 id="磁盘和系统监控"><a href="#磁盘和系统监控" class="headerlink" title="磁盘和系统监控"></a>磁盘和系统监控</h2><h3 id="btop"><a href="#btop" class="headerlink" title="btop"></a>btop</h3><p><code>btop</code> 是 <code>top</code>、<code>htop</code> 的现代替代品，用于查看 CPU、内存、磁盘、网络和进程情况。</p>
+<p>好处：</p>
+<ul>
+<li>界面直观，适合快速定位资源占用。</li>
+<li>支持鼠标操作和进程管理。</li>
+<li>比系统自带 <code>top</code> 更易读。</li>
+</ul>
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动监控</span></span><br><span class="line">btop</span><br></pre></td></tr></table></figure>
+
+<p>进入界面后常用操作：</p>
+<ul>
+<li><code>q</code> 退出。</li>
+<li>方向键选择进程。</li>
+<li><code>f</code> 过滤进程。</li>
+<li><code>k</code> 结束进程。</li>
+<li><code>m</code> 切换显示模式。</li>
+</ul>
+<h3 id="duf"><a href="#duf" class="headerlink" title="duf"></a>duf</h3><p><code>duf</code> 是 <code>df</code> 的替代品，用于查看磁盘分区和挂载点空间使用情况。</p>
+<p>好处：</p>
+<ul>
+<li>表格更清晰，默认带颜色。</li>
+<li>自动按设备、文件系统分类。</li>
+<li>比 <code>df -h</code> 更适合日常查看。</li>
+</ul>
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看磁盘空间</span></span><br><span class="line">duf</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">只显示本地磁盘</span></span><br><span class="line">duf --only local</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">输出 JSON，方便脚本处理</span></span><br><span class="line">duf --json</span><br></pre></td></tr></table></figure>
+
+<h3 id="dust"><a href="#dust" class="headerlink" title="dust"></a>dust</h3><p><code>dust</code> 是 <code>du</code> 的替代品，用于分析目录占用空间。</p>
+<p>好处：</p>
+<ul>
+<li>输出层级清楚，能快速找出大目录。</li>
+<li>默认结果更适合人阅读。</li>
+<li>比 <code>du -sh *</code> 更直观。</li>
+</ul>
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看当前目录空间分布</span></span><br><span class="line">dust</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">指定目录</span></span><br><span class="line">dust ~/Downloads</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">限制显示层级</span></span><br><span class="line">dust -d 2</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">只显示前 20 个结果</span></span><br><span class="line">dust -n 20</span><br></pre></td></tr></table></figure>
+
+<h3 id="ncdu"><a href="#ncdu" class="headerlink" title="ncdu"></a>ncdu</h3><p><code>ncdu</code> 也是磁盘分析工具，和 <code>dust</code> 的区别是它提供交互式界面，适合手动清理大文件。</p>
+<p>好处：</p>
+<ul>
+<li>可以进入目录逐层查看。</li>
+<li>能在界面里删除文件。</li>
+<li>适合清理下载目录、缓存目录、构建产物。</li>
+</ul>
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">分析当前目录</span></span><br><span class="line">ncdu</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">分析指定目录</span></span><br><span class="line">ncdu ~/Downloads</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">排除目录</span></span><br><span class="line">ncdu --exclude node_modules</span><br></pre></td></tr></table></figure>
+
+<p>进入界面后常用操作：</p>
+<ul>
+<li>方向键移动。</li>
+<li>回车进入目录。</li>
+<li><code>d</code> 删除选中的文件或目录。</li>
+<li><code>q</code> 退出。</li>
+</ul>
+<h3 id="fastfetch"><a href="#fastfetch" class="headerlink" title="fastfetch"></a>fastfetch</h3><p><code>fastfetch</code> 类似 <code>neofetch</code>，用于显示系统信息，比如 macOS 版本、CPU、内存、Shell、终端、主题等。</p>
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">显示系统信息</span></span><br><span class="line">fastfetch</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成默认配置</span></span><br><span class="line">fastfetch --gen-config</span><br></pre></td></tr></table></figure>
+
+<p>可以把它放到终端启动脚本中，但不建议每次打开终端都执行太多信息展示，否则会拖慢启动速度。</p>
+<h2 id="交互和终端效率"><a href="#交互和终端效率" class="headerlink" title="交互和终端效率"></a>交互和终端效率</h2><h3 id="fzf"><a href="#fzf" class="headerlink" title="fzf"></a>fzf</h3><p><code>fzf</code> 是命令行模糊查找工具，可以和历史命令、文件搜索、Git 分支、进程选择结合使用。</p>
+<p>好处：</p>
+<ul>
+<li>输入一部分字符就能快速筛选目标。</li>
+<li>可以接收任意列表输入，通用性很强。</li>
+<li>配合 <code>fd</code>、<code>rg</code>、<code>zoxide</code> 后效率很高。</li>
+</ul>
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从当前目录文件中选择</span></span><br><span class="line">fd --type f | fzf</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">搜索历史命令</span></span><br><span class="line">history | fzf</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">选择 Git 分支并切换</span></span><br><span class="line">git branch | fzf | xargs git checkout</span><br></pre></td></tr></table></figure>
+
+<p>安装后可以启用 shell 集成，常见快捷键：</p>
+<ul>
+<li><code>Ctrl + R</code> 搜索历史命令。</li>
+<li><code>Ctrl + T</code> 搜索文件并插入命令行。</li>
+<li><code>Alt + C</code> 搜索目录并进入。</li>
+</ul>
+<h3 id="zoxide"><a href="#zoxide" class="headerlink" title="zoxide"></a>zoxide</h3><p><code>zoxide</code> 是 <code>cd</code> 的智能替代工具，会记录你访问过的目录，然后用关键词快速跳转。</p>
+<p>好处：</p>
+<ul>
+<li>不需要输入完整路径。</li>
+<li>访问越多的目录权重越高。</li>
+<li>对多项目开发很方便。</li>
+</ul>
+<p>初始化配置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">zsh</span></span><br><span class="line">eval &quot;$(zoxide init zsh)&quot;</span><br></pre></td></tr></table></figure>
+
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">跳转到路径中包含 blog 的常用目录</span></span><br><span class="line">z blog</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">多关键词匹配</span></span><br><span class="line">z workspace hexo</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">交互选择目录</span></span><br><span class="line">zi blog</span><br></pre></td></tr></table></figure>
+
+<p>可以设置别名替代 <code>cd</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alias cd=&#x27;z&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="zellij"><a href="#zellij" class="headerlink" title="zellij"></a>zellij</h3><p><code>zellij</code> 是终端复用工具，功能类似 <code>tmux</code>，可以在一个终端窗口中管理多个 pane、tab 和 session。</p>
+<p>好处：</p>
+<ul>
+<li>适合同时运行编辑器、服务、日志、测试命令。</li>
+<li>session 可以保持，断开后再恢复。</li>
+<li>默认界面提示比 <code>tmux</code> 更友好。</li>
+</ul>
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动</span></span><br><span class="line">zellij</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建指定 session</span></span><br><span class="line">zellij -s blog</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">列出 session</span></span><br><span class="line">zellij list-sessions</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">连接已有 session</span></span><br><span class="line">zellij attach blog</span><br></pre></td></tr></table></figure>
+
+<p>常用快捷键以 <code>Ctrl + p</code>、<code>Ctrl + t</code>、<code>Ctrl + n</code> 等模式键为入口，具体可以在底部状态栏查看提示。</p>
+<h3 id="zsh-autosuggestions"><a href="#zsh-autosuggestions" class="headerlink" title="zsh-autosuggestions"></a>zsh-autosuggestions</h3><p><code>zsh-autosuggestions</code> 会根据历史命令给出灰色自动补全建议，类似 Fish Shell 的体验。</p>
+<p>好处：</p>
+<ul>
+<li>常用长命令不用重复输入。</li>
+<li>对 Git、Docker、npm、brew 等命令很有帮助。</li>
+</ul>
+<p>常见配置方式是在 <code>~/.zshrc</code> 中加载插件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh</span><br></pre></td></tr></table></figure>
+
+<p>使用时按右方向键或 <code>Ctrl + e</code> 接受建议。</p>
+<h3 id="zsh-syntax-highlighting"><a href="#zsh-syntax-highlighting" class="headerlink" title="zsh-syntax-highlighting"></a>zsh-syntax-highlighting</h3><p><code>zsh-syntax-highlighting</code> 会在输入命令时进行语法高亮，正确命令和错误命令会用不同颜色显示。</p>
+<p>好处：</p>
+<ul>
+<li>命令还没执行前就能发现拼写问题。</li>
+<li>路径、字符串、管道等结构更容易辨认。</li>
+</ul>
+<p>常见配置方式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh</span><br></pre></td></tr></table></figure>
+
+<p>通常建议把它放在 <code>~/.zshrc</code> 的最后加载。</p>
+<h2 id="网络和传输工具"><a href="#网络和传输工具" class="headerlink" title="网络和传输工具"></a>网络和传输工具</h2><h3 id="httpie"><a href="#httpie" class="headerlink" title="httpie"></a>httpie</h3><p><code>httpie</code> 的命令通常是 <code>http</code>，可以替代部分 <code>curl</code> 使用场景，用更自然的方式发送 HTTP 请求。</p>
+<p>好处：</p>
+<ul>
+<li>输出自动格式化 JSON。</li>
+<li>请求参数写法更接近人类阅读习惯。</li>
+<li>适合调试 API。</li>
+</ul>
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">GET 请求</span></span><br><span class="line">http https://httpbin.org/get</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">POST JSON</span></span><br><span class="line">http POST https://httpbin.org/post name=chen age:=18</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加 Header</span></span><br><span class="line">http https://httpbin.org/get Authorization:&#x27;Bearer token&#x27;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看详细请求和响应</span></span><br><span class="line">http -v https://httpbin.org/get</span><br></pre></td></tr></table></figure>
+
+<h3 id="telnet"><a href="#telnet" class="headerlink" title="telnet"></a>telnet</h3><p><code>telnet</code> 现在较少用于远程登录，更多用于测试 TCP 端口是否连通。</p>
+<p>替代工具包括 <code>nc</code>、<code>curl</code>、<code>nmap</code>，但 <code>telnet host port</code> 仍然简单直接。</p>
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">测试端口连通性</span></span><br><span class="line">telnet example.com 80</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">测试本地服务端口</span></span><br><span class="line">telnet 127.0.0.1 8080</span><br></pre></td></tr></table></figure>
+
+<h3 id="lrzsz"><a href="#lrzsz" class="headerlink" title="lrzsz"></a>lrzsz</h3><p><code>lrzsz</code> 提供 <code>rz</code> 和 <code>sz</code> 命令，用于通过 ZMODEM 协议上传和下载文件。它常见于 SSH 终端工具配合远程服务器传文件的场景。</p>
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从本地上传文件到远程服务器</span></span><br><span class="line">rz</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从远程服务器下载文件到本地</span></span><br><span class="line">sz filename.zip</span><br></pre></td></tr></table></figure>
+
+<p>注意：并不是所有终端都支持 ZMODEM。iTerm2 等终端通常需要额外配置触发脚本，或者改用 <code>scp</code>、<code>rsync</code>、<code>sftp</code>。</p>
+<h2 id="媒体和文件信息"><a href="#媒体和文件信息" class="headerlink" title="媒体和文件信息"></a>媒体和文件信息</h2><h3 id="ffmpeg"><a href="#ffmpeg" class="headerlink" title="ffmpeg"></a>ffmpeg</h3><p><code>ffmpeg</code> 是音视频处理工具，可以转码、压缩、裁剪、抽取音频、截取封面、合并文件等。</p>
+<p>好处：</p>
+<ul>
+<li>功能非常全面，是很多视频软件背后的基础工具。</li>
+<li>适合批量处理媒体文件。</li>
+<li>命令行可复现，方便写脚本。</li>
+</ul>
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看媒体信息</span></span><br><span class="line">ffmpeg -i input.mp4</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">转换格式</span></span><br><span class="line">ffmpeg -i input.mov output.mp4</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">压缩视频</span></span><br><span class="line">ffmpeg -i input.mp4 -vcodec libx264 -crf 28 output.mp4</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">提取音频</span></span><br><span class="line">ffmpeg -i input.mp4 -vn output.mp3</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">截取片段</span></span><br><span class="line">ffmpeg -ss 00:01:00 -to 00:02:00 -i input.mp4 -c copy clip.mp4</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从视频中截一张图</span></span><br><span class="line">ffmpeg -ss 00:00:05 -i input.mp4 -frames:v 1 cover.jpg</span><br></pre></td></tr></table></figure>
+
+<h3 id="exiftool"><a href="#exiftool" class="headerlink" title="exiftool"></a>exiftool</h3><p><code>exiftool</code> 用于查看和修改图片、音频、视频、PDF 等文件的元数据，比如拍摄时间、相机型号、GPS、作者信息等。</p>
+<p>好处：</p>
+<ul>
+<li>支持的格式多。</li>
+<li>适合照片整理、隐私清理、批量改元数据。</li>
+</ul>
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看文件元数据</span></span><br><span class="line">exiftool photo.jpg</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看拍摄时间</span></span><br><span class="line">exiftool -DateTimeOriginal photo.jpg</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除全部元数据</span></span><br><span class="line">exiftool -all= photo.jpg</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">批量删除当前目录 jpg 元数据</span></span><br><span class="line">exiftool -all= *.jpg</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改拍摄时间</span></span><br><span class="line">exiftool -DateTimeOriginal=&quot;2026:07:10 10:00:00&quot; photo.jpg</span><br></pre></td></tr></table></figure>
+
+<p><code>exiftool</code> 默认会生成 <code>_original</code> 备份文件，如果确认不需要备份，可以使用 <code>-overwrite_original</code>。</p>
+<h2 id="帮助文档"><a href="#帮助文档" class="headerlink" title="帮助文档"></a>帮助文档</h2><h3 id="tldr"><a href="#tldr" class="headerlink" title="tldr"></a>tldr</h3><p><code>tldr</code> 是 <code>man</code> 的简化替代品，提供更短、更实用的命令示例。</p>
+<p>好处：</p>
+<ul>
+<li>比 <code>man</code> 更适合快速查用法。</li>
+<li>示例优先，容易复制修改。</li>
+<li>对不常用命令很有帮助。</li>
+</ul>
+<p>常见操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看命令示例</span></span><br><span class="line">tldr tar</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">更新本地缓存</span></span><br><span class="line">tldr --update</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看中文页面，如果客户端支持</span></span><br><span class="line">tldr -L zh tar</span><br></pre></td></tr></table></figure>
+
+<h2 id="推荐组合"><a href="#推荐组合" class="headerlink" title="推荐组合"></a>推荐组合</h2><p>这些工具单独使用已经很方便，组合起来效果更明显。</p>
+<h3 id="搜索文件并查看内容"><a href="#搜索文件并查看内容" class="headerlink" title="搜索文件并查看内容"></a>搜索文件并查看内容</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bat &quot;$(fd &#x27;README.md&#x27; | fzf)&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="搜索文本并打开文件"><a href="#搜索文本并打开文件" class="headerlink" title="搜索文本并打开文件"></a>搜索文本并打开文件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rg -l &quot;TODO&quot; | fzf</span><br></pre></td></tr></table></figure>
+
+<h3 id="找出大目录并清理"><a href="#找出大目录并清理" class="headerlink" title="找出大目录并清理"></a>找出大目录并清理</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dust -d 2 ~/Downloads</span><br><span class="line">ncdu ~/Downloads</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看项目概况"><a href="#查看项目概况" class="headerlink" title="查看项目概况"></a>查看项目概况</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">eza -la --git</span><br><span class="line">tree -L 2 -I &#x27;node_modules|.git&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="API-调试"><a href="#API-调试" class="headerlink" title="API 调试"></a>API 调试</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http -v POST http://localhost:3000/api/login username=admin password=123456</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这批工具大致可以分成几类：</p>
+<ul>
+<li><code>bat</code>、<code>eza</code>、<code>fd</code>、<code>ripgrep</code>、<code>tree</code> 提升文件查看和搜索效率。</li>
+<li><code>btop</code>、<code>duf</code>、<code>dust</code>、<code>ncdu</code>、<code>fastfetch</code> 帮助查看系统和磁盘状态。</li>
+<li><code>fzf</code>、<code>zoxide</code>、<code>zellij</code>、<code>zsh-autosuggestions</code>、<code>zsh-syntax-highlighting</code> 提升终端交互体验。</li>
+<li><code>httpie</code>、<code>telnet</code>、<code>lrzsz</code> 面向网络调试和文件传输。</li>
+<li><code>ffmpeg</code>、<code>exiftool</code> 面向媒体处理和文件元数据。</li>
+<li><code>tldr</code> 用来快速查命令示例。</li>
+</ul>
+<p>如果只想优先熟悉一部分，建议先从 <code>eza</code>、<code>fd</code>、<code>rg</code>、<code>bat</code>、<code>fzf</code>、<code>zoxide</code> 开始。这几项对日常开发和终端使用的提升最明显。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/hexoblog/tags/Homebrew/" rel="tag"># Homebrew</a>
+              <a href="/hexoblog/tags/Mac/" rel="tag"># Mac</a>
+              <a href="/hexoblog/tags/CLI/" rel="tag"># CLI</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/hexoblog/tools/hexo-upgrade-8-1-0/" rel="prev" title="Hexo升级到8.1.0记录">
+                  <i class="fa fa-angle-left"></i> Hexo升级到8.1.0记录
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">chenpf</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">189k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:52</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"hexo-comments-weld.vercel.app","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":[],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/hexoblog/tools/homebrew-cli-tools/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+</body>
+</html>
