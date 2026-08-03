@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"cpfo.github.io","root":"/hexoblog/","images":"/hexoblog/images","scheme":"Gemini","darkmode":false,"version":"8.28.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"language":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/hexoblog/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/hexoblog/js/config.js" defer></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"cpfo.github.io","root":"/hexoblog/","images":"/hexoblog/images","scheme":"Gemini","darkmode":false,"version":"8.28.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"language":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"AI6V64HIFP","apiKey":"006907fdc19ae2ba1c00449055a2c0b7","indexName":"hexoblog_pages","hits":{"per_page":10}}}</script><script src="/hexoblog/js/config.js" defer></script>
 
     <meta name="description" content="使用hexo将博客部署在github pages上面，有时候访问速度会比较慢，可以将图片等静态资源，使用jsdelivr进行cdn加速。 目前由于一些非法的滥用，jsdelivr在国内被墙，无法访问了。">
 <meta property="og:type" content="article">
@@ -63,8 +63,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
 <script src="/hexoblog/js/utils.js" defer></script><script src="/hexoblog/js/motion.js" defer></script><script src="/hexoblog/js/sidebar.js" defer></script><script src="/hexoblog/js/next-boot.js" defer></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
-<script src="/hexoblog/js/third-party/search/local-search.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/5.36.0/lite/builds/browser.umd.js" integrity="sha256-o49zoHLDPBm9WLg6AiliAVi3axCRTqe3ltTxLvhzAVg=" crossorigin="anonymous" defer></script><script src="/hexoblog/js/third-party/search/algolia-search.js" defer></script>
 
 
   <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
@@ -148,7 +147,7 @@
       </div>
       <div class="search-result-container">
         <div class="search-result-icon">
-          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+          <i class="fab fa-algolia fa-5x"></i>
         </div>
       </div>
     </div>
@@ -326,10 +325,10 @@
 <p>&#x2F;gh&#x2F;user&#x2F;repo@version&#x2F;file</p>
 </blockquote>
 <h4 id="Load-exact-version"><a href="#Load-exact-version" class="headerlink" title="Load exact version:"></a>Load exact version:</h4><blockquote>
-<p>&#x2F;gh&#x2F;jquery&#x2F;<a href="mailto:&#x6a;&#x71;&#x75;&#101;&#114;&#121;&#x40;&#x33;&#46;&#49;&#x2e;&#48;">&#x6a;&#x71;&#x75;&#101;&#114;&#121;&#x40;&#x33;&#46;&#49;&#x2e;&#48;</a>&#x2F;dist&#x2F;jquery.min.js<br>&#x2F;gh&#x2F;jquery&#x2F;jquery@32b00373b3f42e5cdcb709df53f3b08b7184a944&#x2F;dist&#x2F;jquery.min.js</p>
+<p>&#x2F;gh&#x2F;jquery&#x2F;<a href="mailto:&#x6a;&#113;&#x75;&#x65;&#114;&#x79;&#x40;&#51;&#46;&#x31;&#46;&#48;">&#x6a;&#113;&#x75;&#x65;&#114;&#x79;&#x40;&#51;&#46;&#x31;&#46;&#48;</a>&#x2F;dist&#x2F;jquery.min.js<br>&#x2F;gh&#x2F;jquery&#x2F;jquery@32b00373b3f42e5cdcb709df53f3b08b7184a944&#x2F;dist&#x2F;jquery.min.js</p>
 </blockquote>
 <h4 id="Use-a-version-range-instead-of-an-exact-version-only-works-with-valid-semver-versions"><a href="#Use-a-version-range-instead-of-an-exact-version-only-works-with-valid-semver-versions" class="headerlink" title="Use a version range instead of an exact version (only works with valid semver versions):"></a>Use a version range instead of an exact version (only works with valid semver versions):</h4><blockquote>
-<p>&#x2F;gh&#x2F;jquery&#x2F;jquery@3&#x2F;dist&#x2F;jquery.min.js<br>&#x2F;gh&#x2F;jquery&#x2F;<a href="mailto:&#106;&#x71;&#117;&#101;&#114;&#x79;&#x40;&#51;&#46;&#49;">&#106;&#x71;&#117;&#101;&#114;&#x79;&#x40;&#51;&#46;&#49;</a>&#x2F;dist&#x2F;jquery.min.js</p>
+<p>&#x2F;gh&#x2F;jquery&#x2F;jquery@3&#x2F;dist&#x2F;jquery.min.js<br>&#x2F;gh&#x2F;jquery&#x2F;<a href="mailto:&#106;&#113;&#117;&#x65;&#114;&#121;&#x40;&#x33;&#x2e;&#49;">&#106;&#113;&#117;&#x65;&#114;&#121;&#x40;&#x33;&#x2e;&#49;</a>&#x2F;dist&#x2F;jquery.min.js</p>
 </blockquote>
 <ul>
 <li>访问方式</li>
