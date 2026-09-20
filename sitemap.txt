@@ -1,3 +1,4 @@
+https://cpfo.github.io/hexoblog/tools/windows-dev-tools/
 https://cpfo.github.io/hexoblog/tools/git-account-by-directory/
 https://cpfo.github.io/hexoblog/tools/hexo-next-algolia-crawler-undefined/
 https://cpfo.github.io/hexoblog/tools/homebrew-cli-tools/
@@ -69,6 +70,9 @@ https://cpfo.github.io/hexoblog/tags/Mac/
 https://cpfo.github.io/hexoblog/tags/CLI/
 https://cpfo.github.io/hexoblog/tags/jsdelivr/
 https://cpfo.github.io/hexoblog/tags/elascitsearch/
+https://cpfo.github.io/hexoblog/tags/Windows/
+https://cpfo.github.io/hexoblog/tags/PowerShell/
+https://cpfo.github.io/hexoblog/tags/Winget/
 https://cpfo.github.io/hexoblog/categories/%E6%8A%80%E6%9C%AF/
 https://cpfo.github.io/hexoblog/categories/%E8%BF%90%E7%BB%B4/
 https://cpfo.github.io/hexoblog/categories/%E7%BC%96%E8%BE%91%E5%99%A8/

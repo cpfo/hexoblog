@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://cpfo.github.io/hexoblog/tools/windows-dev-tools/</loc>
+    
+    <lastmod>2026-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://cpfo.github.io/hexoblog/tools/git-account-by-directory/</loc>
     
     <lastmod>2026-08-25</lastmod>
@@ -436,7 +445,7 @@
 
   <url>
     <loc>https://cpfo.github.io/hexoblog</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -444,154 +453,175 @@
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/go/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/java/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/shardingsphere/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/RateLimiter/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/snowflake/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/%E5%94%AF%E4%B8%80ID/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/python/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/linux/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/nginx/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/Sublime/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/docsify/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/Git/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/gitconfig/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/includeIf/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/hexo/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/NexT/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/Algolia/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/Homebrew/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/Mac/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/CLI/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/jsdelivr/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/tags/elascitsearch/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://cpfo.github.io/hexoblog/tags/Windows/</loc>
+    <lastmod>2026-09-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://cpfo.github.io/hexoblog/tags/PowerShell/</loc>
+    <lastmod>2026-09-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://cpfo.github.io/hexoblog/tags/Winget/</loc>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -600,28 +630,28 @@
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/categories/%E6%8A%80%E6%9C%AF/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/categories/%E8%BF%90%E7%BB%B4/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/categories/%E7%BC%96%E8%BE%91%E5%99%A8/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://cpfo.github.io/hexoblog/categories/%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

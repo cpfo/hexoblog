@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.1.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/hexoblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/hexoblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/hexoblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/hexoblog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/hexoblog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"cpfo.github.io","root":"/hexoblog/","images":"/hexoblog/images","scheme":"Gemini","darkmode":false,"version":"8.28.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"language":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"AI6V64HIFP","apiKey":"006907fdc19ae2ba1c00449055a2c0b7","indexName":"hexoblog_pages","hits":{"per_page":10}}}</script><script src="/hexoblog/js/config.js" defer></script>
+
+    <meta name="description" content="Windows 自带了 PowerShell 和不少命令行工具，但在日常开发中，文件搜索和文本搜索仍然可以使用更现代的命令行工具来提升效率。本文使用 winget 安装 Windows Coreutils、PowerShell 7、Ripgrep 和 fd，并对 PowerShell 做简单配置。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows 开发环境常用工具安装指南">
+<meta property="og:url" content="https://cpfo.github.io/hexoblog/tools/windows-dev-tools/index.html">
+<meta property="og:site_name" content="笔记">
+<meta property="og:description" content="Windows 自带了 PowerShell 和不少命令行工具，但在日常开发中，文件搜索和文本搜索仍然可以使用更现代的命令行工具来提升效率。本文使用 winget 安装 Windows Coreutils、PowerShell 7、Ripgrep 和 fd，并对 PowerShell 做简单配置。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-09-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-09-20T03:23:01.857Z">
+<meta property="article:author" content="chenpf">
+<meta property="article:tag" content="CLI">
+<meta property="article:tag" content="PowerShell">
+<meta property="article:tag" content="Windows">
+<meta property="article:tag" content="Winget">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://cpfo.github.io/hexoblog/tools/windows-dev-tools/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://cpfo.github.io/hexoblog/tools/windows-dev-tools/","path":"tools/windows-dev-tools/","title":"Windows 开发环境常用工具安装指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Windows 开发环境常用工具安装指南 | 笔记</title>
+  
+
+  <script src="/hexoblog/js/third-party/analytics/baidu-analytics.js" defer></script>
+  <script async src="https://hm.baidu.com/hm.js?1945a4916bc20e4a8d139e44acf429f5"></script>
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
+<script src="/hexoblog/js/utils.js" defer></script><script src="/hexoblog/js/motion.js" defer></script><script src="/hexoblog/js/sidebar.js" defer></script><script src="/hexoblog/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/5.36.0/lite/builds/browser.umd.js" integrity="sha256-o49zoHLDPBm9WLg6AiliAVi3axCRTqe3ltTxLvhzAVg=" crossorigin="anonymous" defer></script><script src="/hexoblog/js/third-party/search/algolia-search.js" defer></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/hexoblog/js/third-party/tags/mermaid.js" defer></script>
+
+
+  <script src="/hexoblog/js/third-party/fancybox.js" defer></script>
+
+  <script src="/hexoblog/js/third-party/pace.js" defer></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<link rel="dns-prefetch" href="hexo-comments-weld.vercel.app">
+  <noscript>
+    <link rel="stylesheet" href="/hexoblog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/hexoblog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">笔记</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/hexoblog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/hexoblog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/hexoblog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/hexoblog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/hexoblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fab fa-algolia fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%AE%89%E8%A3%85%E5%89%8D%E6%8F%90"><span class="nav-number">1.</span> <span class="nav-text">一、安装前提</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81Windows-%E5%8C%85%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94"><span class="nav-number">2.</span> <span class="nav-text">二、Windows 包管理方式对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7"><span class="nav-number">3.</span> <span class="nav-text">三、基础命令行工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85"><span class="nav-number">4.</span> <span class="nav-text">四、常用工具安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E9%85%8D%E7%BD%AE-PowerShell-7"><span class="nav-number">5.</span> <span class="nav-text">五、配置 PowerShell 7</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7"><span class="nav-number">6.</span> <span class="nav-text">六、一键安装基础工具</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">chenpf</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/hexoblog/archives/">
+          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/hexoblog/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/hexoblog/tags/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cpfo.github.io/hexoblog/tools/windows-dev-tools/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/hexoblog/images/avatar.gif">
+      <meta itemprop="name" content="chenpf">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Windows 开发环境常用工具安装指南 | 笔记">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Windows 开发环境常用工具安装指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-09-20 00:00:00 / 修改时间：11:23:01" itemprop="dateCreated datePublished" datetime="2026-09-20T00:00:00+08:00">2026-09-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/hexoblog/tools/windows-dev-tools/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/hexoblog/tools/windows-dev-tools/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>Windows 自带了 PowerShell 和不少命令行工具，但在日常开发中，文件搜索和文本搜索仍然可以使用更现代的命令行工具来提升效率。本文使用 <code>winget</code> 安装 Windows Coreutils、PowerShell 7、Ripgrep 和 <code>fd</code>，并对 PowerShell 做简单配置。</p>
+<span id="more"></span>
+
+<h2 id="一、安装前提"><a href="#一、安装前提" class="headerlink" title="一、安装前提"></a>一、安装前提</h2><p>本文的安装命令使用 Windows Package Manager（<code>winget</code>）。请先确认系统已经可以使用 <code>winget</code>，并在需要时以管理员身份打开 PowerShell。</p>
+<p>可以执行下面的命令检查 <code>winget</code> 是否可用：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">winget <span class="literal">--version</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="二、Windows-包管理方式对比"><a href="#二、Windows-包管理方式对比" class="headerlink" title="二、Windows 包管理方式对比"></a>二、Windows 包管理方式对比</h2><p>Windows 上常见的包管理方式主要有 <code>winget</code>、Chocolatey 和 Scoop。三者都可以安装和升级软件，但定位略有不同：</p>
+<table>
+<thead>
+<tr>
+<th align="left">包管理方式</th>
+<th align="left">特点</th>
+<th align="left">常用命令</th>
+<th align="left">更适合的场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>winget</strong></td>
+<td align="left">Windows 官方包管理工具，通常随 App Installer 提供</td>
+<td align="left"><code>winget search &lt;名称&gt;</code><br><code>winget install &lt;名称&gt;</code></td>
+<td align="left">安装桌面软件和常见开发工具，优先使用系统官方生态</td>
+</tr>
+<tr>
+<td align="left"><strong>Chocolatey</strong></td>
+<td align="left">软件包生态成熟，支持安装器、脚本和企业内部源</td>
+<td align="left"><code>choco search &lt;名称&gt;</code><br><code>choco install &lt;名称&gt;</code></td>
+<td align="left">管理软件种类较多，或需要企业级软件源和脚本能力</td>
+</tr>
+<tr>
+<td align="left"><strong>Scoop</strong></td>
+<td align="left">以用户目录安装命令行工具，通常不需要管理员权限</td>
+<td align="left"><code>scoop search &lt;名称&gt;</code><br><code>scoop install &lt;名称&gt;</code></td>
+<td align="left">安装开发者常用 CLI 工具，保持环境轻量、便于迁移</td>
+</tr>
+</tbody></table>
+<p>简单选择建议：日常桌面软件可以优先考虑 <code>winget</code>；需要更丰富的软件包管理和企业内部源时，可以选择 Chocolatey；如果主要安装命令行工具，Scoop 通常更加方便。不同包管理器可能维护相同软件，建议为同一个工具选择一种方式管理，避免重复安装。</p>
+<h2 id="三、基础命令行工具"><a href="#三、基础命令行工具" class="headerlink" title="三、基础命令行工具"></a>三、基础命令行工具</h2><p>下面这些工具覆盖了日常开发中比较常见的文件、文本和终端操作场景：</p>
+<table>
+<thead>
+<tr>
+<th align="left">工具</th>
+<th align="left">用途</th>
+<th align="left">安装命令（Winget）</th>
+<th align="left">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Windows Coreutils</strong></td>
+<td align="left">提供 <code>ls</code>、<code>grep</code>、<code>cat</code> 等 75+ 个 Linux 常用命令</td>
+<td align="left"><code>winget install Microsoft.Coreutils</code></td>
+<td align="left">微软官方出品，使用 Rust 重写</td>
+</tr>
+<tr>
+<td align="left"><strong>PowerShell 7</strong></td>
+<td align="left">新一代 PowerShell，支持预测补全</td>
+<td align="left"><code>winget install --id Microsoft.PowerShell --source winget</code></td>
+<td align="left">安装后使用 <code>pwsh</code> 启动</td>
+</tr>
+<tr>
+<td align="left"><strong>Ripgrep</strong>（<code>rg</code>）</td>
+<td align="left">快速搜索文本，替代 <code>grep</code></td>
+<td align="left"><code>winget install BurntSushi.ripgrep.MSVC</code></td>
+<td align="left">适合搜索代码和日志</td>
+</tr>
+<tr>
+<td align="left"><strong>fd</strong></td>
+<td align="left">更友好的文件搜索工具，替代 <code>find</code></td>
+<td align="left"><code>winget install sharkdp.fd</code></td>
+<td align="left">速度快，语法简单</td>
+</tr>
+</tbody></table>
+<h2 id="四、常用工具安装"><a href="#四、常用工具安装" class="headerlink" title="四、常用工具安装"></a>四、常用工具安装</h2><p>下面的大部分工具可以通过 Scoop 安装；<code>gh</code> 按 GitHub 官方推荐使用 <code>winget</code> 安装。执行 Scoop 命令前，请先确认系统中已经安装并可以使用 Scoop。</p>
+<table>
+<thead>
+<tr>
+<th align="left">工具</th>
+<th align="left">用途说明</th>
+<th align="left">推荐安装命令</th>
+<th align="left">常用示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>bat</strong></td>
+<td align="left"><code>cat</code> 的增强版，支持语法高亮、行号和 Git 修改标记</td>
+<td align="left"><code>scoop install bat</code></td>
+<td align="left"><code>bat README.md</code></td>
+</tr>
+<tr>
+<td align="left"><strong>btop</strong></td>
+<td align="left">终端资源监控工具，用于查看 CPU、内存、磁盘、网络和进程</td>
+<td align="left"><code>scoop install btop</code></td>
+<td align="left"><code>btop</code></td>
+</tr>
+<tr>
+<td align="left"><strong>duf</strong></td>
+<td align="left"><code>df</code> 的替代品，用于查看磁盘和文件系统使用情况</td>
+<td align="left"><code>scoop install duf</code></td>
+<td align="left"><code>duf</code></td>
+</tr>
+<tr>
+<td align="left"><strong>dust</strong></td>
+<td align="left"><code>du</code> 的替代品，用于分析目录和文件的磁盘占用</td>
+<td align="left"><code>scoop install dust</code></td>
+<td align="left"><code>dust</code></td>
+</tr>
+<tr>
+<td align="left"><strong>exiftool</strong></td>
+<td align="left">读取、写入和编辑图片、音视频等文件的元信息</td>
+<td align="left"><code>scoop install exiftool</code></td>
+<td align="left"><code>exiftool image.jpg</code></td>
+</tr>
+<tr>
+<td align="left"><strong>eza</strong></td>
+<td align="left"><code>ls</code> 的现代替代品，支持颜色、目录树和 Git 状态</td>
+<td align="left"><code>scoop install eza</code></td>
+<td align="left"><code>eza -la</code></td>
+</tr>
+<tr>
+<td align="left"><strong>fastfetch</strong></td>
+<td align="left">快速显示系统、硬件和运行环境信息</td>
+<td align="left"><code>scoop install fastfetch</code></td>
+<td align="left"><code>fastfetch</code></td>
+</tr>
+<tr>
+<td align="left"><strong>ffmpeg</strong></td>
+<td align="left">处理音视频的命令行工具，支持转换、剪辑和转码</td>
+<td align="left"><code>scoop install ffmpeg</code></td>
+<td align="left"><code>ffmpeg -i input.mp4 output.mp4</code></td>
+</tr>
+<tr>
+<td align="left"><strong>fzf</strong></td>
+<td align="left">通用模糊搜索工具，可用于交互式筛选文件和命令</td>
+<td align="left"><code>scoop install fzf</code></td>
+<td align="left"><code>rg --files | fzf</code></td>
+</tr>
+<tr>
+<td align="left"><strong>gh</strong></td>
+<td align="left">GitHub 官方命令行工具，用于管理仓库、Issue 和 Pull Request</td>
+<td align="left"><code>winget install --id GitHub.cli</code></td>
+<td align="left"><code>gh auth login</code></td>
+</tr>
+<tr>
+<td align="left"><strong>tldr</strong></td>
+<td align="left">提供简化的命令示例，帮助快速了解命令用法</td>
+<td align="left"><code>scoop install tldr</code></td>
+<td align="left"><code>tldr rg</code></td>
+</tr>
+</tbody></table>
+<p>也可以一次性安装上面列出的全部工具：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scoop install bat btop duf dust exiftool eza fastfetch ffmpeg fzf tldr</span><br></pre></td></tr></table></figure>
+
+<p><code>gh</code> 使用下面的命令安装：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">winget install <span class="literal">--id</span> GitHub.cli</span><br></pre></td></tr></table></figure>
+
+<p>安装后如果命令无法识别，可以先重新打开终端，再使用 <code>scoop list</code> 检查安装结果。</p>
+<h2 id="五、配置-PowerShell-7"><a href="#五、配置-PowerShell-7" class="headerlink" title="五、配置 PowerShell 7"></a>五、配置 PowerShell 7</h2><p>可以将下面的配置添加到 PowerShell 7 的 <code>$PROFILE</code> 文件中：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">notepad <span class="variable">$PROFILE</span></span><br></pre></td></tr></table></figure>
+
+<p>在打开的文件中加入以下内容：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启用预测补全，同时使用历史记录和插件</span></span><br><span class="line"><span class="built_in">Set-PSReadLineOption</span> <span class="literal">-PredictionSource</span> <span class="built_in">History</span>, Plugin</span><br><span class="line"><span class="built_in">Set-PSReadLineOption</span> <span class="literal">-PredictionViewStyle</span> InlineView</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自定义提示符</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">prompt</span></span> &#123; <span class="string">&quot;PS ❯ &quot;</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>保存文件后，重新打开 PowerShell 7 即可生效。预测补全会根据历史记录和插件内容给出命令建议，<code>InlineView</code> 会将建议显示在当前输入行中。</p>
+<h2 id="六、一键安装基础工具"><a href="#六、一键安装基础工具" class="headerlink" title="六、一键安装基础工具"></a>六、一键安装基础工具</h2><p>如果希望一次性安装全部基础工具，可以在 PowerShell 中执行下面的命令：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 安装 Windows Coreutils</span></span><br><span class="line">winget install Microsoft.Coreutils</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 安装 PowerShell 7</span></span><br><span class="line">winget install <span class="literal">--id</span> Microsoft.PowerShell <span class="literal">--source</span> winget</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 安装 Ripgrep</span></span><br><span class="line">winget install BurntSushi.ripgrep.MSVC</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 安装 fd</span></span><br><span class="line">winget install sharkdp.fd</span><br><span class="line"></span><br><span class="line"><span class="built_in">Write-Host</span> <span class="string">&quot;✅ 基础工具安装完成！请重启终端生效。&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>安装完成后重启终端，然后可以分别检查工具是否已经加入环境变量：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pwsh <span class="literal">--version</span></span><br><span class="line">rg <span class="literal">--version</span></span><br><span class="line">fd <span class="literal">--version</span></span><br></pre></td></tr></table></figure>
+
+<p>如果命令仍然无法识别，先关闭当前终端窗口并重新打开；如果仍有问题，再检查 <code>winget</code> 的安装结果和系统环境变量配置。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/hexoblog/tags/CLI/" rel="tag"># CLI</a>
+              <a href="/hexoblog/tags/Windows/" rel="tag"># Windows</a>
+              <a href="/hexoblog/tags/PowerShell/" rel="tag"># PowerShell</a>
+              <a href="/hexoblog/tags/Winget/" rel="tag"># Winget</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/hexoblog/tools/git-account-by-directory/" rel="prev" title="Git 按目录自动区分提交账号">
+                  <i class="fa fa-angle-left"></i> Git 按目录自动区分提交账号
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">chenpf</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">201k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:03</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"hexo-comments-weld.vercel.app","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":[],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/hexoblog/tools/windows-dev-tools/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+</body>
+</html>
